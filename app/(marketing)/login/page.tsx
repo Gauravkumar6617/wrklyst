@@ -1,11 +1,50 @@
+"use client";
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Box, Mail, Lock, ArrowRight } from 'lucide-react';
+import { Box, Mail, Lock, ArrowRight, Loader2 } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 export default function LoginPage() {
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Invalid credentials");
+      }
+
+      toast.success("You have been login successfully")
+      router.push('/');
+      
+      router.refresh(); 
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <main className="min-h-screen grid lg:grid-cols-2">
-      
-      {/* --- LEFT SIDE: THE VIBE --- */}
+      {/* --- LEFT SIDE: THE VIBE (Keep as is) --- */}
       <div className="hidden lg:flex flex-col justify-between p-12 bg-[#1E1F4B] relative overflow-hidden">
         {/* Decorative Glows */}
         <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-[#5D5FEF]/20 rounded-full blur-[120px] animate-pulse" />
@@ -39,13 +78,23 @@ export default function LoginPage() {
             <p className="text-slate-500 font-medium">Enter your details to access your account.</p>
           </div>
 
-          <form className="space-y-6">
+          {/* Error Feedback */}
+          {error && (
+            <div className="p-4 bg-red-50 border border-red-100 text-red-600 text-sm font-bold rounded-xl">
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleLogin} className="space-y-6">
             <div className="space-y-2">
               <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Email Address</label>
               <div className="relative">
                 <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={20} />
                 <input 
+                  required
                   type="email" 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="name@company.com" 
                   className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:ring-2 focus:ring-[#5D5FEF]/20 focus:bg-white transition-all font-medium" 
                 />
@@ -60,16 +109,26 @@ export default function LoginPage() {
               <div className="relative">
                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={20} />
                 <input 
+                  required
                   type="password" 
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••" 
                   className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:ring-2 focus:ring-[#5D5FEF]/20 focus:bg-white transition-all font-medium" 
                 />
               </div>
             </div>
 
-            <button className="w-full py-5 bg-[#5D5FEF] text-white rounded-2xl font-bold flex items-center justify-center gap-3 shadow-xl shadow-[#5D5FEF]/30 hover:scale-[1.02] active:scale-[0.98] transition-all">
-              Sign In to Dashboard
-              <ArrowRight size={20} />
+            <button 
+              disabled={loading}
+              className="w-full py-5 bg-[#5D5FEF] text-white rounded-2xl font-bold flex items-center justify-center gap-3 shadow-xl shadow-[#5D5FEF]/30 hover:scale-[1.02] active:scale-[0.98] transition-all"
+            >
+              {loading ? <Loader2 className="animate-spin" size={20} /> : (
+                <>
+                  Sign In to Dashboard
+                  <ArrowRight size={20} />
+                </>
+              )}
             </button>
           </form>
 
