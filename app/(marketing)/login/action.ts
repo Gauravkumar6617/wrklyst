@@ -1,12 +1,11 @@
 "use server";
 
+import { cookies } from "next/headers"; // Use this for Server Actions
+
 export async function loginAction(formData: FormData) {
-    console.log("--- Server Action Started ---");
     const email = formData.get("email")?.toString() ?? "";
     const password = formData.get("password")?.toString() ?? "";
     
-    console.log("Attempting to fetch from:", `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/auth/login`);
-  
     try {
         const res = await fetch(
             `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/auth/login`,
@@ -18,19 +17,47 @@ export async function loginAction(formData: FormData) {
             }
         );
 
-        console.log("Server fetch status:", res.status);
         const data = await res.json();
-        console.log("Server received data:", data);
-  
+    
+        // DEBUG: Look at your terminal (not browser) to see this!
+        console.log("FULL BACKEND RESPONSE:", data); 
+    
         if (!res.ok) {
-            console.error("Server Action logic failed validation");
-            throw new Error(data.error || data.detail || data.message || "Login failed");
+            return { success: false, error: data.detail || "Login failed" };
         }
-  
-        console.log("--- Server Action Finished Successfully ---");
-        return data.user;
+    
+        const cookieStore = await cookies();
+    
+        // Use optional chaining (?.) and check the exact key name from your Python code
+        // Is it 'access_token' or 'token'? 
+        const token = data.access_token || data.token; 
+        const username = data.user?.username || data.username;
+    
+        if (token) {
+            cookieStore.set("token", token, {
+                path: "/",
+                maxAge: 60 * 60 * 24 * 7,
+                httpOnly: false,
+                secure: false,
+                sameSite: "lax",
+            });
+        }
+    
+        if (username) {
+            cookieStore.set("username", username, {
+                path: "/",
+                maxAge: 60 * 60 * 24 * 7,
+                httpOnly: false,
+                secure: false,
+                sameSite: "lax",
+            });
+        }
+    
+        return { success: true, user: { username } 
+    }
+
+      
     } catch (error: any) {
-        console.error("CRITICAL ERROR in Server Action:", error.message);
-        throw error;
+        return { success: false, error: error.message };
     }
 }

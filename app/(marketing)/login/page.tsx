@@ -5,7 +5,9 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Box, Mail, Lock, ArrowRight, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { loginAction } from './action'; // Ensure this path is correct
+import { loginAction } from './action'; 
+import GoogleAuth from '@/app/components/GoogleAuth/GoogleAuth';
+import { useAuthStore } from '@/app/store/useAuthStore';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -14,17 +16,30 @@ export default function LoginPage() {
   const handleFormAction = (formData: FormData) => {
     startTransition(async () => {
       try {
-        // Step 1 & 2: Data is collected from the form automatically into formData
-        const user = await loginAction(formData);
+        console.log("--- [Normal Login] Flow Started ---");
+        const result = await loginAction(formData);
         
-        // Step 10: Backend has returned the user object successfully
-        toast.success(`Welcome back, ${user.username}!`);
-        
-        router.push('/');
-  
+        console.log("1. Result from Server:", result);
+
+        if (result.success && result.user) {
+          // --- THE SYNC FIX ---
+          // Don't just call checkAuth(); manually set the state so it's instant
+          useAuthStore.setState({ 
+            isLoggedIn: true, 
+            username: result.user.username 
+          });
+
+          console.log("2. Zustand Updated Manually:", useAuthStore.getState());
+
+          toast.success(`Welcome back, ${result.user.username}!`);
+          router.push('/');
+          router.refresh();
+        } else {
+          toast.error(result.error || "Login failed");
+        }
       } catch (err: any) {
-        // Handle error from Step 6/7
-        toast.error(err.message || "Invalid credentials");
+        console.error("Login Error:", err);
+        toast.error("An unexpected error occurred");
       }
     });
   };
@@ -104,6 +119,7 @@ export default function LoginPage() {
                 </>
               )}
             </button>
+            <GoogleAuth/>
           </form>
 
           <p className="text-center text-slate-500 font-medium">
