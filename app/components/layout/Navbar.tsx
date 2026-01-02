@@ -1,19 +1,28 @@
 "use client";
 
-import { useEffect } from 'react';
+import { useEffect ,useState} from 'react';
 import Link from 'next/link';
 import { ChevronDown, Box, User, LogOut, Settings } from 'lucide-react';
 import { useAuthStore } from '@/app/store/useAuthStore'; // Ensure this path is correct
 
 export default function Navbar() {
-  // Pull state and actions from your Zustand store
   const { username, isLoggedIn, checkAuth, logout } = useAuthStore();
+  const [mounted, setMounted] = useState(false);
 
-  // On mount, check if cookies exist to auto-login the user
   useEffect(() => {
+    setMounted(true);
     checkAuth();
   }, [checkAuth]);
 
+  // If not mounted, show a "skeleton" or empty space of the same height
+  // This stops the Login/Signup buttons from flashing
+  if (!mounted) {
+    return (
+      <div className="fixed top-0 left-0 w-full px-4 md:px-10 py-4 z-50">
+        <div className="max-w-7xl mx-auto h-[72px] bg-white/10 backdrop-blur-xl rounded-[24px] border border-white/20" />
+      </div>
+    );
+  }
   return (
     <div className="fixed top-0 left-0 w-full px-4 md:px-10 py-4 z-50 pointer-events-none">
       <nav className="max-w-7xl mx-auto flex items-center justify-between px-8 py-4 bg-white/70 backdrop-blur-xl border border-white/40 shadow-[0_8px_32px_rgba(0,0,0,0.05)] rounded-[24px] pointer-events-auto">

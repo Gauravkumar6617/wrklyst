@@ -16,29 +16,26 @@ export default function LoginPage() {
   const handleFormAction = (formData: FormData) => {
     startTransition(async () => {
       try {
-        console.log("--- [Normal Login] Flow Started ---");
         const result = await loginAction(formData);
         
-        console.log("1. Result from Server:", result);
-
         if (result.success && result.user) {
-          // --- THE SYNC FIX ---
-          // Don't just call checkAuth(); manually set the state so it's instant
+          // --- THE CRITICAL FIX ---
+          // Manually push data to the store so it's INSTANT
           useAuthStore.setState({ 
             isLoggedIn: true, 
             username: result.user.username 
           });
 
-          console.log("2. Zustand Updated Manually:", useAuthStore.getState());
-
           toast.success(`Welcome back, ${result.user.username}!`);
+          
           router.push('/');
-          router.refresh();
+          // router.refresh() tells Next.js to re-fetch Server Components 
+          // now that the cookie is set.
+          router.refresh(); 
         } else {
           toast.error(result.error || "Login failed");
         }
       } catch (err: any) {
-        console.error("Login Error:", err);
         toast.error("An unexpected error occurred");
       }
     });
