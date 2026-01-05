@@ -1,41 +1,20 @@
-"use server";
+import { NextResponse } from "next/server";
 
-export async function signupAction(formData: FormData) {
-    const username = formData.get("username")?.toString() ?? "";
-    const email = formData.get("email")?.toString() ?? "";
-    const password = formData.get("password")?.toString() ?? "";
+export async function POST(req: Request) {
+  const body = await req.json();
 
-    const backendUrl = process.env.NEXT_PUBLIC_APP_URL;
+  const backendUrl = process.env.NEXT_PUBLIC_APP_URL;
 
-    try {
-        const res = await fetch(`${backendUrl}/api/v1/auth/register`, {
-            method: "POST",
-            headers: { 
-                "Content-Type": "application/json",
-                "Accept": "application/json" 
-            },
-            body: JSON.stringify({ username, email, password }),
-        });
+  const res = await fetch(`${backendUrl}/api/v1/auth/register`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
 
-        // Safety check for HTML responses
-        const contentType = res.headers.get("content-type");
-        if (!contentType || !contentType.includes("application/json")) {
-            return { success: false, error: "Backend returned non-JSON response." };
-        }
+  const data = await res.json();
 
-        const data = await res.json();
-
-        if (!res.ok) {
-            // FastAPI detail can be a string or a validation array
-            const errorMessage = typeof data.detail === 'string' 
-                ? data.detail 
-                : "Registration failed. Please check your details.";
-            return { success: false, error: errorMessage };
-        }
-
-        return { success: true, message: data.message };
-
-    } catch (error) {
-        return { success: false, error: "Could not connect to the server." };
-    }
+  return NextResponse.json(data, { status: res.status });
 }
