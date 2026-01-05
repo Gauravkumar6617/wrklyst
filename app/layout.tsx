@@ -12,7 +12,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className="bg-mesh min-h-screen antialiased">
         <GoogleOAuthProvider clientId={googleClientId}>
-          <Navbar />
+          
           <NewsletterModal />
           <Toaster position="bottom-center" />
           {children}

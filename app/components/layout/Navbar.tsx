@@ -85,11 +85,9 @@ export default function Navbar() {
               <div className="absolute top-[90%] right-0 hidden group-hover:block w-48 pt-4 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
                 <div className="bg-white shadow-[0_20px_70px_rgba(0,0,0,0.15)] rounded-2xl border border-slate-100 p-2">
                   <Link href="/dashboard" className="flex items-center gap-2 px-4 py-3 text-sm font-bold text-[#2D2E5F] hover:bg-[#5D5FEF]/5 hover:text-[#5D5FEF] rounded-xl transition-all">
-                    <Box size={16} /> My Files
+                    <Box size={16} /> My Account
                   </Link>
-                  <Link href="/settings" className="flex items-center gap-2 px-4 py-3 text-sm font-bold text-[#2D2E5F] hover:bg-[#5D5FEF]/5 hover:text-[#5D5FEF] rounded-xl transition-all">
-                    <Settings size={16} /> Settings
-                  </Link>
+              
                   <div className="my-1 border-t border-slate-50" />
                   <button 
                     onClick={logout}
