@@ -1,6 +1,6 @@
 "use client";
 
-import { useTransition } from 'react';
+import { useEffect, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Box, Mail, Lock, ArrowRight, Loader2 } from 'lucide-react';
@@ -12,26 +12,58 @@ import { useAuthStore } from '@/app/store/useAuthStore';
 export default function LoginPage() {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const { isLoggedIn, isAdmin, checkAuth } = useAuthStore();
 
+  useEffect(() => {
+    // Check if user is actually logged in
+    checkAuth();
+    
+    if (isLoggedIn) {
+      if (isAdmin) {
+        router.replace('/admin');
+      } else {
+        router.replace('/dashboard');
+      }
+    }
+  }, [isLoggedIn, isAdmin, router, checkAuth]);
+
+  // If already logged in, show a simple loader while redirecting
+  if (isLoggedIn) {
+    return (
+      <div className="h-screen w-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+      </div>
+    );
+  }
   const handleFormAction = (formData: FormData) => {
     startTransition(async () => {
       try {
         const result = await loginAction(formData);
         
         if (result.success && result.user) {
-          // --- THE CRITICAL FIX ---
-          // Manually push data to the store so it's INSTANT
+          // 1. CRITICAL: Save the token to localStorage so the Admin fetch can find it
+          if (result.access_token) {
+            localStorage.setItem("token", result.access_token);
+          }
+
+          // 2. Update Zustand Store
           useAuthStore.setState({ 
             isLoggedIn: true, 
-            username: result.user.username 
+            username: result.user.username,
+            isAdmin: result.user.is_admin 
           });
 
           toast.success(`Welcome back, ${result.user.username}!`);
           
-          router.push('/');
-          // router.refresh() tells Next.js to re-fetch Server Components 
-          // now that the cookie is set.
-          router.refresh(); 
+          // 3. ROUTING LOGIC
+          // Use window.location.href for a clean "hard" redirect to the admin panel
+          // This ensures all auth headers are fresh
+          if (result.user.is_admin) {
+            window.location.href = '/admin'; 
+          } else {
+            router.push('/');
+            router.refresh(); 
+          }
         } else {
           toast.error(result.error || "Login failed");
         }
@@ -39,7 +71,7 @@ export default function LoginPage() {
         toast.error("An unexpected error occurred");
       }
     });
-  };
+};
 
   return (
     <main className="min-h-screen grid lg:grid-cols-2">
@@ -111,7 +143,7 @@ export default function LoginPage() {
             >
               {isPending ? <Loader2 className="animate-spin" size={20} /> : (
                 <>
-                  Sign In to Dashboard
+                  Sign In
                   <ArrowRight size={20} />
                 </>
               )}

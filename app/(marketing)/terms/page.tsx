@@ -42,7 +42,7 @@ export default function TermsPage() {
         
         {/* Add more sections as needed */}
       </LegalLayout>
-      <Footer />
+     
     </>
   );
 }

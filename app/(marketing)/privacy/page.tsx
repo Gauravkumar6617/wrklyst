@@ -17,7 +17,7 @@ export default function PrivacyPage() {
       >
         <PrivacyContent />
       </LegalLayout>
-      <Footer />
+
     </>
   );
 }

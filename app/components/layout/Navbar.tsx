@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect ,useState} from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import Link from 'next/link';
-import { ChevronDown, Box, User, LogOut, Settings } from 'lucide-react';
-import { useAuthStore } from '@/app/store/useAuthStore'; // Ensure this path is correct
+import { ChevronDown, Box, User, LogOut, ArrowRight } from 'lucide-react';
+import { useAuthStore } from '@/app/store/useAuthStore';
+import { TOOLS_CONFIG } from '@/lib/tools-data'; // 1. Import your config
 
 export default function Navbar() {
   const { username, isLoggedIn, checkAuth, logout } = useAuthStore();
@@ -14,8 +15,16 @@ export default function Navbar() {
     checkAuth();
   }, [checkAuth]);
 
-  // If not mounted, show a "skeleton" or empty space of the same height
-  // This stops the Login/Signup buttons from flashing
+  // 2. Group tools by category dynamically using useMemo for performance
+  const groupedTools = useMemo(() => {
+    return Object.entries(TOOLS_CONFIG).reduce((acc, [slug, tool]) => {
+      const category = tool.category || "Other";
+      if (!acc[category]) acc[category] = [];
+      acc[category].push({ slug, ...tool });
+      return acc;
+    }, {} as Record<string, any[]>);
+  }, []);
+
   if (!mounted) {
     return (
       <div className="fixed top-0 left-0 w-full px-4 md:px-10 py-4 z-50">
@@ -23,6 +32,7 @@ export default function Navbar() {
       </div>
     );
   }
+
   return (
     <div className="fixed top-0 left-0 w-full px-4 md:px-10 py-4 z-50 pointer-events-none">
       <nav className="max-w-7xl mx-auto flex items-center justify-between px-8 py-4 bg-white/70 backdrop-blur-xl border border-white/40 shadow-[0_8px_32px_rgba(0,0,0,0.05)] rounded-[24px] pointer-events-auto">
@@ -41,35 +51,60 @@ export default function Navbar() {
           <Link href="/contact" className="hover:text-[#5D5FEF] transition-colors">Contact</Link>
           <Link href="/pricing" className="hover:text-[#5D5FEF] transition-colors">Pricing</Link>
           
-          {/* Tools Dropdown (Existing) */}
+          {/* Dynamic Tools Dropdown */}
           <div className="group relative cursor-pointer py-2">
-            <span className="flex items-center gap-1 group-hover:text-[#5D5FEF] transition-colors">
-              Tools <ChevronDown size={14} strokeWidth={3} className="mt-0.5 opacity-50 group-hover:rotate-180 transition-transform duration-300" />
-            </span>
-            <div className="absolute top-[80%] -left-20 hidden group-hover:block w-[450px] pt-4 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-              <div className="bg-white shadow-[0_20px_70px_rgba(0,0,0,0.15)] rounded-[28px] border border-slate-100 p-6">
-                <div className="grid grid-cols-2 gap-x-4 gap-y-2">
-                  <div className="space-y-1">
-                    <Link href="/tools/pdf/merge" className="block px-4 py-3 text-sm font-bold text-[#2D2E5F] hover:bg-[#5D5FEF]/5 hover:text-[#5D5FEF] rounded-xl transition-all">Merge PDF</Link>
-                    <Link href="/tools/pdf/compress" className="block px-4 py-3 text-sm font-bold text-[#2D2E5F] hover:bg-[#5D5FEF]/5 hover:text-[#5D5FEF] rounded-xl transition-all">Compress PDF</Link>
-                  </div>
-                  <div className="space-y-1">
-                    <Link href="/tools/image/resize" className="block px-4 py-3 text-sm font-bold text-[#2D2E5F] hover:bg-[#5D5FEF]/5 hover:text-[#5D5FEF] rounded-xl transition-all">Resize Image</Link>
-                    <Link href="/tools/image/remove-bg" className="block px-4 py-3 text-sm font-bold text-[#2D2E5F] hover:bg-[#5D5FEF]/5 hover:text-[#5D5FEF] rounded-xl transition-all">Remove BG</Link>
-                  </div>
+          <Link 
+    href="/tools" 
+    className="flex items-center gap-1 group-hover:text-[#5D5FEF] transition-colors"
+  >
+    Tools 
+    <ChevronDown 
+      size={14} 
+      strokeWidth={3} 
+      className="mt-0.5 opacity-50 group-hover:rotate-180 transition-transform duration-300" 
+    />
+  </Link>
+            
+            {/* Mega Menu Dropdown */}
+            <div className="absolute top-[80%] -left-40 hidden group-hover:block w-[550px] pt-4 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+              <div className="bg-white shadow-[0_20px_70px_rgba(0,0,0,0.15)] rounded-[28px] border border-slate-100 p-8">
+                <div className="grid grid-cols-2 gap-8">
+                  {Object.entries(groupedTools).map(([category, tools]) => (
+                    <div key={category} className="space-y-3">
+                      <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 px-2">
+                        {category} Tools
+                      </h4>
+                      <div className="space-y-1">
+                        {tools.slice(0, 4).map((tool) => (
+                          <Link 
+                            key={tool.slug}
+                            href={`/tools/${tool.slug}`} 
+                            className="flex items-center justify-between group/item px-3 py-2 text-sm font-bold text-[#2D2E5F] hover:bg-[#5D5FEF]/5 hover:text-[#5D5FEF] rounded-xl transition-all"
+                          >
+                            {tool.name}
+                            <ArrowRight size={12} className="opacity-0 -translate-x-2 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all" />
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <div className="mt-4 pt-4 border-t border-slate-50">
-                  <Link href="/tools" className="block w-full py-3 text-center text-sm font-black text-[#5D5FEF] hover:bg-[#5D5FEF] hover:text-white rounded-xl transition-all">Explore All Tools</Link>
+                
+                {/* View All Footer */}
+                <div className="mt-6 pt-4 border-t border-slate-50">
+                  <Link href="/tools" className="flex items-center justify-center gap-2 w-full py-3 text-sm font-black text-[#5D5FEF] bg-[#5D5FEF]/5 hover:bg-[#5D5FEF] hover:text-white rounded-xl transition-all group/btn">
+                    Explore All {Object.keys(TOOLS_CONFIG).length} Tools 
+                    <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
+                  </Link>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Action Buttons: Conditioned on Auth State */}
+        {/* Action Buttons */}
         <div className="flex items-center gap-2">
           {isLoggedIn ? (
-            /* --- LOGGED IN: User Profile Pill --- */
             <div className="group relative py-2">
               <div className="flex items-center gap-3 bg-[#5D5FEF]/5 border border-[#5D5FEF]/20 px-4 py-2 rounded-full cursor-pointer hover:bg-[#5D5FEF]/10 transition-all duration-200">
                 <div className="w-7 h-7 bg-[#5D5FEF] rounded-full flex items-center justify-center text-white">
@@ -81,13 +116,11 @@ export default function Navbar() {
                 <ChevronDown size={14} strokeWidth={3} className="text-[#5D5FEF]/50 group-hover:rotate-180 transition-transform duration-300" />
               </div>
 
-              {/* User Dropdown */}
               <div className="absolute top-[90%] right-0 hidden group-hover:block w-48 pt-4 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
                 <div className="bg-white shadow-[0_20px_70px_rgba(0,0,0,0.15)] rounded-2xl border border-slate-100 p-2">
                   <Link href="/dashboard" className="flex items-center gap-2 px-4 py-3 text-sm font-bold text-[#2D2E5F] hover:bg-[#5D5FEF]/5 hover:text-[#5D5FEF] rounded-xl transition-all">
                     <Box size={16} /> My Account
                   </Link>
-              
                   <div className="my-1 border-t border-slate-50" />
                   <button 
                     onClick={logout}
@@ -99,14 +132,12 @@ export default function Navbar() {
               </div>
             </div>
           ) : (
-            /* --- LOGGED OUT: Original Buttons --- */
             <>
               <Link href="/login">
                 <button className="px-5 py-2 text-[#2D2E5F] font-bold text-sm hover:bg-slate-50 rounded-full transition-all">
                   Log in
                 </button>
               </Link>
-              
               <Link href="/signup">
                 <button className="px-6 py-2 bg-[#1E1F4B] text-white rounded-full font-bold text-sm shadow-lg shadow-indigo-100 hover:scale-105 transition-all">
                   Sign Up

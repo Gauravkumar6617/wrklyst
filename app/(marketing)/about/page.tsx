@@ -20,7 +20,7 @@ export default function AboutPage() {
         <CTA />
       </div>
       
-      <Footer />
+
     </main>
   );
 }

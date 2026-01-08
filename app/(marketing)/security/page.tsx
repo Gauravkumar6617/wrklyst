@@ -76,7 +76,7 @@ const SecurityPage = () => {
           </p>
         </div>
       </LegalLayout>
-      <Footer />
+     
     </main>
   );
 };

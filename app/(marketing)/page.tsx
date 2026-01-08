@@ -34,7 +34,7 @@ export default function Home() {
       <CTA />
 
       {/* 7. NEW: Footer (Navigation & SEO) */}
-      <Footer />
+     
     </main>
   );
 }

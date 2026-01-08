@@ -35,7 +35,7 @@ export default function HowItWorksPage() {
         <CTA />
       </div>
 
-      <Footer />
+
     </main>
   );
 }

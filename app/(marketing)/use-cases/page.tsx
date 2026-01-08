@@ -21,7 +21,7 @@ export default function UseCasesPage() {
         <UseCaseGrid />
       </section>
 
-      <Footer />
+ 
     </main>
   );
 }
