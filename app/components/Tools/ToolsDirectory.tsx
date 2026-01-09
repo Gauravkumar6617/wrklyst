@@ -5,22 +5,45 @@ import { TOOLS_CONFIG } from "@/lib/tools-data"; // Import your source of truth
 
 const categories = [
   {
+    title: "Writing Tools",
+    id: "writing-tools",
+    icon: <Type className="text-emerald-500" size={20} />,
+    slugs: [
+      "word-counter", 
+      "text-compare", 
+      "text-formatter", 
+      "dummy-text-generator", 
+      "grammar-checker", 
+      "line-sorter",
+      "remove-special-characters", // Added
+  "remove-emojis"
+    ]
+  },
+  {
+    title: "Developer Tools",
+    id: "developer-tools",
+    icon: <Terminal className="text-[#5D5FEF]" size={20} />,
+    slugs: [
+      "json-formatter", 
+      "code-beautifier", 
+      "base64-encoder-decoder", 
+      "url-encoder-decoder", 
+      "text-to-slug",
+      "remove-special-characters", // Added
+  "remove-emojis"
+    ]
+  },
+  {
     title: "PDF Tools",
     id: "pdf-tools",
     icon: <FileText className="text-red-500" size={20} />,
-    slugs: ["merge-pdf", "compress-pdf", "pdf-to-jpg"] // Add slugs here
+    slugs: ["merge-pdf", "compress-pdf", "pdf-to-jpg"] 
   },
   {
     title: "Image Tools",
     id: "image-tools",
     icon: <ImageIcon className="text-blue-500" size={20} />,
     slugs: ["remove-bg", "resize-image"]
-  },
-  {
-    title: "Writing Tools",
-    id: "writing-tools",
-    icon: <Type className="text-emerald-500" size={20} />,
-    slugs: ["word-counter"]
   }
 ];
 

@@ -6,6 +6,15 @@ import TextFormatter from "@/app/components/Tools/TextFormatter/TextFormatter";
 import JsonFormatter from "@/app/components/Tools/JsonFormatter/JsonFormatter";
 import CodeBeautifier from "@/app/components/Tools/CodeBeautifier/CodeBeautifier";
 import DummyTextGenerator from "@/app/components/Tools/DummyTextGenerator/DummyTextGenerator";
+import ConverterTool from "@/app/components/Tools/ConverterTool/ConverterTool";
+import GrammarChecker from "@/app/components/Tools/GrammarChecker/GrammarChecker";
+import RemoveSpecialChars from "@/app/components/Tools/RemoveSpecialChars/RemoveSpecialChars";
+import RemoveEmojis from "@/app/components/Tools/RemoveEmojis/RemoveEmojis";
+import JsonToCsv from "@/app/components/Tools/JsonToCsv/JsonToCsv";
+import TimestampConverter from "@/app/components/Tools/TimestampConverter/TimestampConverter";
+import HashGenerator from "@/app/components/Tools/HashGenerator/HashGenerator";
+import HtpasswdGenerator from "@/app/components/Tools/HtpasswdGenerator/HtpasswdGenerator";
+import EmojiConverter from "@/app/components/Tools/EmojiConverter/EmojiConverter";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -16,7 +25,18 @@ const TOOL_COMPONENTS: Record<string, React.ComponentType> = {
   "text-formatter": TextFormatter,
   "json-formatter": JsonFormatter,
   "code-beautifier": CodeBeautifier,
-  "dummy-text-generator": DummyTextGenerator, // Renamed for better SEO reach
+  "dummy-text-generator": DummyTextGenerator, 
+  "base64-encoder-decoder": () => <ConverterTool mode="base64-enc" />,
+  "url-encoder-decoder": () => <ConverterTool mode="url-enc" />,
+  "text-to-slug": () => <ConverterTool mode="slug" />,
+  "grammar-checker": GrammarChecker,
+  "remove-special-characters": RemoveSpecialChars,
+  "remove-emojis": RemoveEmojis,
+  "json-to-csv": JsonToCsv,
+  "timestamp-converter": TimestampConverter,
+  "hash-generator": HashGenerator,
+  "htpasswd-generator": HtpasswdGenerator,
+  "emoji-converter": EmojiConverter,
 };
 // 1. DYNAMIC METADATA (SEO)
 export async function generateMetadata({ params }: PageProps) {
