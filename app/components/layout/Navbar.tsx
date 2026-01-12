@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState, useMemo } from 'react';
-import Link from 'next/link';
-import { ChevronDown, Box, User, LogOut, ArrowRight } from 'lucide-react';
-import { useAuthStore } from '@/app/store/useAuthStore';
-import { TOOLS_CONFIG } from '@/lib/tools-data'; // 1. Import your config
+import { useEffect, useState, useMemo } from "react";
+import Link from "next/link";
+import { ChevronDown, Box, User, LogOut, ArrowRight } from "lucide-react";
+import { useAuthStore } from "@/app/store/useAuthStore";
+import { TOOLS_CONFIG } from "@/lib/tools-data"; // 1. Import your config
 
 export default function Navbar() {
   const { username, isLoggedIn, checkAuth, logout } = useAuthStore();
@@ -17,12 +17,15 @@ export default function Navbar() {
 
   // 2. Group tools by category dynamically using useMemo for performance
   const groupedTools = useMemo(() => {
-    return Object.entries(TOOLS_CONFIG).reduce((acc, [slug, tool]) => {
-      const category = tool.category || "Other";
-      if (!acc[category]) acc[category] = [];
-      acc[category].push({ slug, ...tool });
-      return acc;
-    }, {} as Record<string, any[]>);
+    return Object.entries(TOOLS_CONFIG).reduce(
+      (acc, [slug, tool]) => {
+        const category = tool.category || "Other";
+        if (!acc[category]) acc[category] = [];
+        acc[category].push({ slug, ...tool });
+        return acc;
+      },
+      {} as Record<string, any[]>
+    );
   }, []);
 
   if (!mounted) {
@@ -36,65 +39,93 @@ export default function Navbar() {
   return (
     <div className="fixed top-0 left-0 w-full px-4 md:px-10 py-4 z-50 pointer-events-none">
       <nav className="max-w-7xl mx-auto flex items-center justify-between px-8 py-4 bg-white/70 backdrop-blur-xl border border-white/40 shadow-[0_8px_32px_rgba(0,0,0,0.05)] rounded-[24px] pointer-events-auto">
-        
         {/* Logo */}
-        <Link href="/" className="group flex items-center gap-2 font-bold text-xl text-[#5D5FEF] transition-opacity hover:opacity-90">
+        <Link
+          href="/"
+          className="group flex items-center gap-2 font-bold text-xl text-[#5D5FEF] transition-opacity hover:opacity-90"
+        >
           <div className="bg-[#5D5FEF]/10 p-2 rounded-xl group-hover:scale-105 transition-transform duration-200">
             <Box size={22} strokeWidth={2.5} />
           </div>
           <span className="tracking-tighter text-[#2D2E5F]">Wrklyst</span>
         </Link>
-        
+
         {/* Nav Links */}
         <div className="hidden md:flex items-center gap-8 text-[#64748b] font-semibold text-[14px]">
-          <Link href="/about" className="hover:text-[#5D5FEF] transition-colors">About</Link>
-          <Link href="/contact" className="hover:text-[#5D5FEF] transition-colors">Contact</Link>
-          <Link href="/pricing" className="hover:text-[#5D5FEF] transition-colors">Pricing</Link>
-          
+          <Link
+            href="/about"
+            className="hover:text-[#5D5FEF] transition-colors"
+          >
+            About
+          </Link>
+          <Link
+            href="/contact"
+            className="hover:text-[#5D5FEF] transition-colors"
+          >
+            Contact
+          </Link>
+          <Link
+            href="/pricing"
+            className="hover:text-[#5D5FEF] transition-colors"
+          >
+            Pricing
+          </Link>
+
           {/* Dynamic Tools Dropdown */}
           <div className="group relative cursor-pointer py-2">
-          <Link 
-    href="/tools" 
-    className="flex items-center gap-1 group-hover:text-[#5D5FEF] transition-colors"
-  >
-    Tools 
-    <ChevronDown 
-      size={14} 
-      strokeWidth={3} 
-      className="mt-0.5 opacity-50 group-hover:rotate-180 transition-transform duration-300" 
-    />
-  </Link>
-            
+            <Link
+              href="/tools"
+              className="flex items-center gap-1 group-hover:text-[#5D5FEF] transition-colors"
+            >
+              Tools
+              <ChevronDown
+                size={14}
+                strokeWidth={3}
+                className="mt-0.5 opacity-50 group-hover:rotate-180 transition-transform duration-300"
+              />
+            </Link>
+
             {/* Mega Menu Dropdown */}
-            <div className="absolute top-[80%] -left-40 hidden group-hover:block w-[550px] pt-4 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-              <div className="bg-white shadow-[0_20px_70px_rgba(0,0,0,0.15)] rounded-[28px] border border-slate-100 p-8">
-                <div className="grid grid-cols-2 gap-8">
+            <div className="absolute top-[80%] -left-64 hidden group-hover:block w-[850px] pt-4 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+              <div className="bg-white shadow-[0_20px_70px_rgba(0,0,0,0.15)] rounded-[32px] border border-slate-100 p-10">
+                {/* 4-Column Grid for All Tools */}
+                <div className="grid grid-cols-4 gap-x-8 gap-y-10">
                   {Object.entries(groupedTools).map(([category, tools]) => (
-                    <div key={category} className="space-y-3">
-                      <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 px-2">
-                        {category} Tools
+                    <div key={category} className="space-y-4">
+                      <h4 className="text-[10px] font-black uppercase tracking-[2px] text-[#5D5FEF] bg-[#5D5FEF]/5 px-3 py-1 rounded-md w-fit">
+                        {category}
                       </h4>
                       <div className="space-y-1">
-                        {tools.slice(0, 4).map((tool) => (
-                          <Link 
+                        {/* REMOVED .slice(0, 4) to show all tools */}
+                        {tools.map((tool) => (
+                          <Link
                             key={tool.slug}
-                            href={`/tools/${tool.slug}`} 
-                            className="flex items-center justify-between group/item px-3 py-2 text-sm font-bold text-[#2D2E5F] hover:bg-[#5D5FEF]/5 hover:text-[#5D5FEF] rounded-xl transition-all"
+                            href={`/tools/${tool.slug}`}
+                            className="flex items-center justify-between group/item px-3 py-2 text-[13px] font-bold text-[#2D2E5F] hover:bg-slate-50 hover:text-[#5D5FEF] rounded-xl transition-all"
                           >
-                            {tool.name}
-                            <ArrowRight size={12} className="opacity-0 -translate-x-2 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all" />
+                            <span className="truncate">{tool.name}</span>
+                            <ArrowRight
+                              size={12}
+                              className="opacity-0 -translate-x-2 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all shrink-0"
+                            />
                           </Link>
                         ))}
                       </div>
                     </div>
                   ))}
                 </div>
-                
+
                 {/* View All Footer */}
-                <div className="mt-6 pt-4 border-t border-slate-50">
-                  <Link href="/tools" className="flex items-center justify-center gap-2 w-full py-3 text-sm font-black text-[#5D5FEF] bg-[#5D5FEF]/5 hover:bg-[#5D5FEF] hover:text-white rounded-xl transition-all group/btn">
-                    Explore All {Object.keys(TOOLS_CONFIG).length} Tools 
-                    <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
+                <div className="mt-10 pt-6 border-t border-slate-100">
+                  <Link
+                    href="/tools"
+                    className="flex items-center justify-center gap-3 w-full py-4 text-xs font-black text-white bg-[#1E1F4B] hover:bg-[#5D5FEF] rounded-2xl transition-all shadow-lg shadow-indigo-100 group/btn"
+                  >
+                    BROWSE DIRECTORY ({Object.keys(TOOLS_CONFIG).length} TOOLS)
+                    <ArrowRight
+                      size={16}
+                      className="group-hover/btn:translate-x-2 transition-transform"
+                    />
                   </Link>
                 </div>
               </div>
@@ -113,16 +144,23 @@ export default function Navbar() {
                 <span className="text-[#2D2E5F] font-bold text-sm hidden sm:block">
                   {username}
                 </span>
-                <ChevronDown size={14} strokeWidth={3} className="text-[#5D5FEF]/50 group-hover:rotate-180 transition-transform duration-300" />
+                <ChevronDown
+                  size={14}
+                  strokeWidth={3}
+                  className="text-[#5D5FEF]/50 group-hover:rotate-180 transition-transform duration-300"
+                />
               </div>
 
               <div className="absolute top-[90%] right-0 hidden group-hover:block w-48 pt-4 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
                 <div className="bg-white shadow-[0_20px_70px_rgba(0,0,0,0.15)] rounded-2xl border border-slate-100 p-2">
-                  <Link href="/dashboard" className="flex items-center gap-2 px-4 py-3 text-sm font-bold text-[#2D2E5F] hover:bg-[#5D5FEF]/5 hover:text-[#5D5FEF] rounded-xl transition-all">
+                  <Link
+                    href="/dashboard"
+                    className="flex items-center gap-2 px-4 py-3 text-sm font-bold text-[#2D2E5F] hover:bg-[#5D5FEF]/5 hover:text-[#5D5FEF] rounded-xl transition-all"
+                  >
                     <Box size={16} /> My Account
                   </Link>
                   <div className="my-1 border-t border-slate-50" />
-                  <button 
+                  <button
                     onClick={logout}
                     className="w-full flex items-center gap-2 px-4 py-3 text-sm font-bold text-red-500 hover:bg-red-50 rounded-xl transition-all"
                   >

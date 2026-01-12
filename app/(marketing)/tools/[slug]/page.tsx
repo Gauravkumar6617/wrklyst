@@ -15,28 +15,82 @@ import TimestampConverter from "@/app/components/Tools/TimestampConverter/Timest
 import HashGenerator from "@/app/components/Tools/HashGenerator/HashGenerator";
 import HtpasswdGenerator from "@/app/components/Tools/HtpasswdGenerator/HtpasswdGenerator";
 import EmojiConverter from "@/app/components/Tools/EmojiConverter/EmojiConverter";
+import TextSummarizer from "@/app/components/Tools/TextSummarizer/TextSummarizer";
+import ReadabilityChecker from "@/app/components/Tools/ReadabilityChecker/ReadabilityChecker";
+import KeywordDensity from "@/app/components/Tools/KeywordDensity/KeywordDensity";
+import RegexTester from "@/app/components/Tools/RegexTester/RegexTester";
+import PasswordChecker from "@/app/components/Tools/PasswordChecker/PasswordChecker";
+import PasswordGenerator from "@/app/components/Tools/PasswordGenerator/PasswordGenerator";
+import CommentRemover from "@/app/components/Tools/CommentRemover/CommentRemover";
+import ImageConverter from "@/app/components/Tools/ImageTools/ImageConverter/ImageConverter";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
 };
-const TOOL_COMPONENTS: Record<string, React.ComponentType> = {
+const TOOL_COMPONENTS: Record<string, React.ComponentType<any>> = {
+  // --- ✍️ WRITING & CONTENT TOOLS ---
   "word-counter": WordCounter,
-  "text-compare": TextCompare,
-  "text-formatter": TextFormatter,
-  "json-formatter": JsonFormatter,
-  "code-beautifier": CodeBeautifier,
-  "dummy-text-generator": DummyTextGenerator, 
-  "base64-encoder-decoder": () => <ConverterTool mode="base64-enc" />,
-  "url-encoder-decoder": () => <ConverterTool mode="url-enc" />,
-  "text-to-slug": () => <ConverterTool mode="slug" />,
   "grammar-checker": GrammarChecker,
+  "text-summarizer": TextSummarizer,
+  "readability-checker": ReadabilityChecker,
+  "paragraph-counter": ReadabilityChecker, // Reusing the advanced logic
+  "keyword-density-checker": KeywordDensity,
+  "dummy-text-generator": DummyTextGenerator,
+  "text-formatter": TextFormatter,
+  "text-compare": TextCompare,
   "remove-special-characters": RemoveSpecialChars,
   "remove-emojis": RemoveEmojis,
-  "json-to-csv": JsonToCsv,
-  "timestamp-converter": TimestampConverter,
-  "hash-generator": HashGenerator,
-  "htpasswd-generator": HtpasswdGenerator,
   "emoji-converter": EmojiConverter,
+
+  // --- 💻 DEVELOPER & DATA TOOLS ---
+  "json-formatter": JsonFormatter,
+  "json-to-csv": JsonToCsv,
+  "code-beautifier": CodeBeautifier,
+  "comment-remover": CommentRemover,
+  "regex-tester": RegexTester,
+  "timestamp-converter": TimestampConverter,
+  "text-to-slug": () => <ConverterTool mode="slug" />,
+  "url-encoder-decoder": () => <ConverterTool mode="url-enc" />,
+  "base64-encoder-decoder": () => <ConverterTool mode="base64-enc" />,
+
+  // --- 🔐 SECURITY & HASHING TOOLS ---
+  "hash-generator": HashGenerator,
+  "password-generator": PasswordGenerator,
+  "password-strength-checker": PasswordChecker,
+  "htpasswd-generator": HtpasswdGenerator,
+
+  ///Image tools ////
+  "image-converter": ImageConverter,
+
+  // Specific SEO Tools
+  "jpg-to-png": () => (
+    <ImageConverter defaultTarget="image/png" title="JPG to PNG Converter" />
+  ),
+  "png-to-jpg": () => (
+    <ImageConverter defaultTarget="image/jpeg" title="PNG to JPG Converter" />
+  ),
+  "webp-to-png": () => (
+    <ImageConverter defaultTarget="image/png" title="WebP to PNG Converter" />
+  ),
+  "png-to-webp": () => (
+    <ImageConverter defaultTarget="image/webp" title="PNG to WebP Converter" />
+  ),
+  "jpg-to-jpg": (props) => (
+    <ImageConverter
+      {...props}
+      defaultTarget="image/jpeg"
+      title="JPG Optimizer"
+      isOptimizer={true}
+    />
+  ),
+  "png-to-png": (props) => (
+    <ImageConverter
+      {...props}
+      defaultTarget="image/png"
+      title="PNG Optimizer"
+      isOptimizer={true}
+    />
+  ),
 };
 // 1. DYNAMIC METADATA (SEO)
 export async function generateMetadata({ params }: PageProps) {

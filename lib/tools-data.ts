@@ -1,13 +1,20 @@
-export interface ToolConfig {
-  title: string;
-  description: string;
-  h1: string;
-  keywords: string;
-  schemaType: string;
-  name: string;
-  category: string;
-}
+export type ToolCategory =
+  | "Writing"
+  | "Developer"
+  | "Security"
+  | "Image"
+  | "PDF"
+  | "Converter";
 
+export interface ToolConfig {
+  title: string; // For the <title> tag
+  description: string; // For meta description
+  h1: string; // Main page heading
+  keywords: string; // Meta keywords
+  schemaType: "SoftwareApplication" | "WebApplication";
+  name: string; // Simple name for UI components
+  category: ToolCategory;
+}
 export const TOOLS_CONFIG: Record<string, ToolConfig> = {
   "word-counter": {
     title: "Free Online Word Counter - Count Words & Characters Instantly",
@@ -72,104 +79,290 @@ export const TOOLS_CONFIG: Record<string, ToolConfig> = {
     name: "Dummy Text Generator",
   },
   "base64-encoder-decoder": {
-  title: "Base64 Encoder & Decoder - String to Base64 Online",
-  description: "Easily encode text to Base64 or decode Base64 back to plain text. Safe, fast, and secure local processing.",
-  h1: "Base64 Encoder/Decoder",
-  keywords: "base64 encode, base64 decode, string to base64, base64 to text",
-  schemaType: "SoftwareApplication", category: "Developer", name: "Base64 Tool"
-},
-"url-encoder-decoder": {
-  title: "URL Encoder & Decoder - Percent Encoding Tool",
-  description: "Encode and decode URLs for safe web transmission. Handles special characters and parameters perfectly.",
-  h1: "URL Encoder/Decoder",
-  keywords: "url encode, url decode, percent encoding, uri encoder",
-  schemaType: "SoftwareApplication", category: "Developer", name: "URL Tool"
-},
-"line-sorter": {
-  title: "Line Sorter - Alphabetize & Sort Text Lists",
-  description: "Sort lists alphabetically, numerically, or in reverse. Remove duplicates and clean up your data instantly.",
-  h1: "Online Line Sorter",
-  keywords: "sort lines, alphabetize list, sort text, remove duplicate lines",
-  schemaType: "SoftwareApplication", category: "Writing", name: "Line Sorter"
-},
-"text-to-slug": {
-  title: "Text to Slug Generator - Create SEO Friendly URLs",
-  description: "Convert any title or string into a clean, SEO-friendly URL slug. Perfect for bloggers and developers.",
-  h1: "URL Slug Generator",
-  keywords: "text to slug, slugify, url slug generator, seo friendly url",
-  schemaType: "SoftwareApplication", category: "Writing", name: "Slug Generator"
-},
-"grammar-checker": {
-  title: "Free Grammar & Spell Checker - Improve Your Writing",
-  description: "Check your text for common spelling mistakes, double words, and basic grammar errors instantly.",
-  h1: "Online Grammar & Spell Checker",
-  keywords: "grammar checker, spell check online, proofreading tool, fix writing errors",
-  schemaType: "SoftwareApplication",
-  category: "Writing",
-  name: "Grammar Checker",
-},
-"remove-special-characters": {
-  title: "Remove Special Characters Online - Clean Text Tool",
-  description: "Quickly remove symbols, punctuation, and special characters from your text. Keep only letters, numbers, or both.",
-  h1: "Special Character Remover",
-  keywords: "remove symbols from text, strip special characters, clean text online, text sanitizer",
-  schemaType: "SoftwareApplication",
-  category: "Writing",
-  name: "Remove Special Characters",
-},
-"remove-emojis": {
-  title: "Remove Emojis from Text - Online Emoji Stripper",
-  description: "Instantly strip all emojis and emoticons from your text. Perfect for cleaning social media bios and professional documents.",
-  h1: "Online Emoji Remover",
-  keywords: "strip emojis, remove emoticons from text, emoji cleaner, clean text for printing",
-  schemaType: "SoftwareApplication",
-  category: "Writing",
-  name: "Emoji Remover",
-},
-"json-to-csv": {
-  title: "JSON to CSV Converter - Convert JSON to Excel Online",
-  description: "Easily convert JSON data to CSV format for Excel or Google Sheets. Supports nested objects and automatic header detection.",
-  h1: "Professional JSON to CSV Converter",
-  keywords: "json to csv, convert json to excel online, json to spreadsheet, data converter, developer tools",
-  schemaType: "SoftwareApplication",
-  category: "Developer",
-  name: "JSON to CSV",
-},
-"timestamp-converter": {
-  title: "Unix Timestamp Converter - Epoch Converter Online",
-  description: "Convert Unix timestamps to human-readable dates and vice versa. Supports seconds, milliseconds, and local time zones.",
-  h1: "Unix Epoch & Timestamp Converter",
-  keywords: "unix timestamp converter, epoch converter, human date to unix, miliseconds to date, developer utilities",
-  schemaType: "SoftwareApplication",
-  category: "Developer",
-  name: "Timestamp Converter",
-},
-"hash-generator": {
-  title: "Online Hash Generator - MD5, SHA-1, SHA-256",
-  description: "Securely generate MD5, SHA-1, and SHA-256 hashes from any text. All processing is done locally in your browser for maximum privacy.",
-  h1: "MD5 & SHA Hash Generator",
-  keywords: "hash generator, md5 generator, sha256 online, sha1 hash, secure hashing tool, checksum generator",
-  schemaType: "SoftwareApplication",
-  category: "Developer",
-  name: "Hash Generator",
-},
-"htpasswd-generator": {
-  title: "Htpasswd Generator - Create .htpasswd Files Online",
-  description: "Generate secure password hashes for Apache and Nginx .htpasswd files. Supports MD5 and SHA-1 encryption methods.",
-  h1: "Online Htpasswd Generator",
-  keywords: "htpasswd generator, apache password hash, nginx password tool, htpasswd online, .htpasswd creator",
-  schemaType: "SoftwareApplication",
-  category: "Developer",
-  name: "Htpasswd Generator",
-},
-"emoji-converter": {
-  title: "Emoji to Text & Shortcode Converter - Online Emoji Tool",
-  description: "Convert emojis to their text shortcodes and vice versa. Perfect for Discord, Slack, and GitHub formatting.",
-  h1: "Emoji & Shortcode Converter",
-  keywords: "emoji to text, emoji shortcodes, discord emoji codes, slack emoji list, convert text to emoji",
-  schemaType: "SoftwareApplication",
-  category: "Writing",
-  name: "Emoji Converter",
-},
-  // Adding a 3rd, 4th, or 100th tool is now just adding one object here
+    title: "Base64 Encoder & Decoder - String to Base64 Online",
+    description:
+      "Easily encode text to Base64 or decode Base64 back to plain text. Safe, fast, and secure local processing.",
+    h1: "Base64 Encoder/Decoder",
+    keywords: "base64 encode, base64 decode, string to base64, base64 to text",
+    schemaType: "SoftwareApplication",
+    category: "Developer",
+    name: "Base64 Tool",
+  },
+  "url-encoder-decoder": {
+    title: "URL Encoder & Decoder - Percent Encoding Tool",
+    description:
+      "Encode and decode URLs for safe web transmission. Handles special characters and parameters perfectly.",
+    h1: "URL Encoder/Decoder",
+    keywords: "url encode, url decode, percent encoding, uri encoder",
+    schemaType: "SoftwareApplication",
+    category: "Developer",
+    name: "URL Tool",
+  },
+  "line-sorter": {
+    title: "Line Sorter - Alphabetize & Sort Text Lists",
+    description:
+      "Sort lists alphabetically, numerically, or in reverse. Remove duplicates and clean up your data instantly.",
+    h1: "Online Line Sorter",
+    keywords: "sort lines, alphabetize list, sort text, remove duplicate lines",
+    schemaType: "SoftwareApplication",
+    category: "Writing",
+    name: "Line Sorter",
+  },
+  "text-to-slug": {
+    title: "Text to Slug Generator - Create SEO Friendly URLs",
+    description:
+      "Convert any title or string into a clean, SEO-friendly URL slug. Perfect for bloggers and developers.",
+    h1: "URL Slug Generator",
+    keywords: "text to slug, slugify, url slug generator, seo friendly url",
+    schemaType: "SoftwareApplication",
+    category: "Writing",
+    name: "Slug Generator",
+  },
+  "grammar-checker": {
+    title: "Free Grammar & Spell Checker - Improve Your Writing",
+    description:
+      "Check your text for common spelling mistakes, double words, and basic grammar errors instantly.",
+    h1: "Online Grammar & Spell Checker",
+    keywords:
+      "grammar checker, spell check online, proofreading tool, fix writing errors",
+    schemaType: "SoftwareApplication",
+    category: "Writing",
+    name: "Grammar Checker",
+  },
+  "remove-special-characters": {
+    title: "Remove Special Characters Online - Clean Text Tool",
+    description:
+      "Quickly remove symbols, punctuation, and special characters from your text. Keep only letters, numbers, or both.",
+    h1: "Special Character Remover",
+    keywords:
+      "remove symbols from text, strip special characters, clean text online, text sanitizer",
+    schemaType: "SoftwareApplication",
+    category: "Writing",
+    name: "Remove Special Characters",
+  },
+  "remove-emojis": {
+    title: "Remove Emojis from Text - Online Emoji Stripper",
+    description:
+      "Instantly strip all emojis and emoticons from your text. Perfect for cleaning social media bios and professional documents.",
+    h1: "Online Emoji Remover",
+    keywords:
+      "strip emojis, remove emoticons from text, emoji cleaner, clean text for printing",
+    schemaType: "SoftwareApplication",
+    category: "Writing",
+    name: "Emoji Remover",
+  },
+  "json-to-csv": {
+    title: "JSON to CSV Converter - Convert JSON to Excel Online",
+    description:
+      "Easily convert JSON data to CSV format for Excel or Google Sheets. Supports nested objects and automatic header detection.",
+    h1: "Professional JSON to CSV Converter",
+    keywords:
+      "json to csv, convert json to excel online, json to spreadsheet, data converter, developer tools",
+    schemaType: "SoftwareApplication",
+    category: "Developer",
+    name: "JSON to CSV",
+  },
+  "timestamp-converter": {
+    title: "Unix Timestamp Converter - Epoch Converter Online",
+    description:
+      "Convert Unix timestamps to human-readable dates and vice versa. Supports seconds, milliseconds, and local time zones.",
+    h1: "Unix Epoch & Timestamp Converter",
+    keywords:
+      "unix timestamp converter, epoch converter, human date to unix, miliseconds to date, developer utilities",
+    schemaType: "SoftwareApplication",
+    category: "Developer",
+    name: "Timestamp Converter",
+  },
+  "hash-generator": {
+    title: "Online Hash Generator - MD5, SHA-1, SHA-256",
+    description:
+      "Securely generate MD5, SHA-1, and SHA-256 hashes from any text. All processing is done locally in your browser for maximum privacy.",
+    h1: "MD5 & SHA Hash Generator",
+    keywords:
+      "hash generator, md5 generator, sha256 online, sha1 hash, secure hashing tool, checksum generator",
+    schemaType: "SoftwareApplication",
+    category: "Developer",
+    name: "Hash Generator",
+  },
+  "htpasswd-generator": {
+    title: "Htpasswd Generator - Create .htpasswd Files Online",
+    description:
+      "Generate secure password hashes for Apache and Nginx .htpasswd files. Supports MD5 and SHA-1 encryption methods.",
+    h1: "Online Htpasswd Generator",
+    keywords:
+      "htpasswd generator, apache password hash, nginx password tool, htpasswd online, .htpasswd creator",
+    schemaType: "SoftwareApplication",
+    category: "Developer",
+    name: "Htpasswd Generator",
+  },
+  "emoji-converter": {
+    title: "Emoji to Text & Shortcode Converter - Online Emoji Tool",
+    description:
+      "Convert emojis to their text shortcodes and vice versa. Perfect for Discord, Slack, and GitHub formatting.",
+    h1: "Emoji & Shortcode Converter",
+    keywords:
+      "emoji to text, emoji shortcodes, discord emoji codes, slack emoji list, convert text to emoji",
+    schemaType: "SoftwareApplication",
+    category: "Writing",
+    name: "Emoji Converter",
+  },
+  "text-summarizer": {
+    title: "Online Text Summarizer - Free Summary Generator",
+    description:
+      "Quickly summarize long articles and text into short, medium, or bulleted summaries using sentence extraction.",
+    h1: "Fast Text Summarizer",
+    keywords:
+      "text summarizer, article summarizer, summarize text free, bullet point generator",
+    schemaType: "SoftwareApplication",
+    category: "Writing",
+    name: "Text Summarizer",
+  },
+  "readability-checker": {
+    title: "Readability Checker - Flesch-Kincaid Grade Level Tool",
+    description:
+      "Calculate the Flesch Reading Ease score and grade level of your text to ensure it is easy for your audience to read.",
+    h1: "Reading Ease & Grade Level Checker",
+    keywords:
+      "readability checker, flesch reading ease, reading grade level, writing difficulty",
+    schemaType: "SoftwareApplication",
+    category: "Writing",
+    name: "Readability Checker",
+  },
+  "keyword-density-checker": {
+    title: "Keyword Density Checker - SEO Content Analysis Tool",
+    description:
+      "Analyze your content's keyword frequency and density. Filter out stop-words to see your most important topics.",
+    h1: "SEO Keyword Density Analyzer",
+    keywords:
+      "keyword density, keyword frequency, seo content analyzer, word frequency checker",
+    schemaType: "SoftwareApplication",
+    category: "Writing",
+    name: "Keyword Density Checker",
+  },
+  "paragraph-counter": {
+    title: "Paragraph & Sentence Counter - Advanced Text Stats",
+    description:
+      "Count paragraphs, sentences, and average sentence length. Deep analysis of your writing structure.",
+    h1: "Paragraph & Sentence Structure Counter",
+    keywords:
+      "paragraph counter, sentence counter, average sentence length, text structure analyzer",
+    schemaType: "SoftwareApplication",
+    category: "Writing",
+    name: "Paragraph Counter",
+  },
+  "regex-tester": {
+    title: "Online Regex Tester - Real-Time Regular Expression Debugger",
+    description:
+      "Test and debug your Regular Expressions in real-time. Includes match highlighting and support for global and case-insensitive flags.",
+    h1: "Professional Regex Tester & Debugger",
+    keywords:
+      "regex tester, online regex, regular expression debugger, regex highlighter, javascript regex test",
+    schemaType: "SoftwareApplication",
+    category: "Developer",
+    name: "Regex Tester",
+  },
+  "password-strength-checker": {
+    title: "Password Strength Checker - Test Password Security Online",
+    description:
+      "Check how secure your password is. Calculate entropy, estimate crack time, and get real-time security feedback.",
+    h1: "Secure Password Strength Analyzer",
+    keywords:
+      "password strength checker, test password security, password entropy calculator, how secure is my password",
+    schemaType: "SoftwareApplication",
+    category: "Security",
+    name: "Password Checker",
+  },
+  "password-generator": {
+    title: "Random Password Generator - Create Secure Passwords Online",
+    description:
+      "Generate strong, random passwords with custom lengths and character types. Secure, local, and free password creator.",
+    h1: "Secure Random Password Generator",
+    keywords:
+      "password generator, secure password creator, random string generator, strong password tool",
+    schemaType: "SoftwareApplication",
+    category: "Security",
+    name: "Password Generator",
+  },
+  "comment-remover": {
+    title: "Online Comment Remover - Clean Source Code Instantly",
+    description:
+      "Remove comments from JavaScript, Python, CSS, HTML, and more. Clean up your code for production and reduce file size.",
+    h1: "Professional Source Code Comment Remover",
+    keywords:
+      "remove comments from code, code cleaner, javascript comment remover, python comment stripper, minify code online",
+    schemaType: "SoftwareApplication",
+    category: "Developer",
+    name: "Comment Remover",
+  },
+
+  "jpg-to-webp": {
+    title: "Convert JPG to WebP Online - Next-Gen Optimization",
+    description:
+      "Convert JPEG photos to WebP to reduce file size by up to 30% without losing quality. Better for SEO and site speed.",
+    h1: "JPG to WebP Converter",
+    keywords: "jpg to webp, convert jpeg to webp, optimized image converter",
+    schemaType: "SoftwareApplication", // Added this
+    category: "Image",
+    name: "JPG to WebP",
+  },
+  "webp-to-jpg": {
+    title: "Convert WebP to JPG Online - High Compatibility",
+    description:
+      "Convert modern WebP images to standard JPG format for maximum compatibility with all devices and software.",
+    h1: "WebP to JPG Converter",
+    keywords: "webp to jpg, convert webp to jpeg online, image format changer",
+    schemaType: "SoftwareApplication", // Added this
+    category: "Image",
+    name: "WebP to JPG",
+  },
+  "png-to-bmp": {
+    title: "Convert PNG to BMP - Lossless Bitmap Images",
+    description:
+      "Convert your PNG files to BMP (Bitmap) format. Fast, high-quality, and runs entirely in your browser.",
+    h1: "PNG to BMP Converter",
+    keywords: "png to bmp, convert png to bitmap online",
+    schemaType: "SoftwareApplication", // Added this
+    category: "Image",
+    name: "PNG to BMP",
+  },
+  "bmp-to-png": {
+    title: "Convert BMP to PNG - Modern Web Ready",
+    description:
+      "Convert old-school Bitmap (BMP) files to modern PNG format with transparency support.",
+    h1: "BMP to PNG Converter",
+    keywords: "bmp to png, convert bitmap to png online",
+    schemaType: "SoftwareApplication", // Added this
+    category: "Image",
+    name: "BMP to PNG",
+  },
+  "gif-to-png": {
+    title: "Convert GIF to PNG - Extract First Frame",
+    description:
+      "Easily extract the first frame of an animated GIF and save it as a high-quality PNG image.",
+    h1: "GIF to PNG Converter",
+    keywords: "gif to png, extract frame from gif, animated gif to static",
+    schemaType: "SoftwareApplication", // Added this
+    category: "Image",
+    name: "GIF to PNG",
+  },
+  "jpg-to-jpg": {
+    title: "JPG Compressor - Reduce JPG File Size Online",
+    description:
+      "Re-compress your JPG images to reduce file size without a noticeable loss in quality. Perfect for site optimization.",
+    h1: "JPG Size Optimizer",
+    keywords: "compress jpg, reduce jpg size, optimize jpeg online",
+    schemaType: "SoftwareApplication", // Added this
+    category: "Image",
+    name: "JPG Optimizer",
+  },
+  "png-to-png": {
+    title: "PNG Optimizer - Reduce PNG Size Online",
+    description:
+      "Optimize your PNG files by stripping metadata and re-compressing for smaller footprints and faster web loads.",
+    h1: "PNG Size Optimizer",
+    keywords: "optimize png, compress png online, reduce png file size",
+    schemaType: "SoftwareApplication", // Added this
+    category: "Image",
+    name: "PNG Optimizer",
+  },
 };
