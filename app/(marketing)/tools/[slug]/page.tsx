@@ -60,38 +60,32 @@ const TOOL_COMPONENTS: Record<string, React.ComponentType<any>> = {
   "htpasswd-generator": HtpasswdGenerator,
 
   ///Image tools ////
-  "image-converter": ImageConverter,
+"image-converter": ImageConverter,
 
-  // Specific SEO Tools
-  "jpg-to-png": () => (
-    <ImageConverter defaultTarget="image/png" title="JPG to PNG Converter" />
-  ),
-  "png-to-jpg": () => (
-    <ImageConverter defaultTarget="image/jpeg" title="PNG to JPG Converter" />
-  ),
-  "webp-to-png": () => (
-    <ImageConverter defaultTarget="image/png" title="WebP to PNG Converter" />
-  ),
-  "png-to-webp": () => (
-    <ImageConverter defaultTarget="image/webp" title="PNG to WebP Converter" />
-  ),
+  // --- 🔄 STANDARD CONVERTERS ---
+  "jpg-to-png": (props) => <ImageConverter {...props} defaultTarget="image/png" title="JPG to PNG Converter" />,
+  "png-to-jpg": (props) => <ImageConverter {...props} defaultTarget="image/jpeg" title="PNG to JPG Converter" />,
+  "webp-to-png": (props) => <ImageConverter {...props} defaultTarget="image/png" title="WebP to PNG Converter" />,
+  "png-to-webp": (props) => <ImageConverter {...props} defaultTarget="image/webp" title="PNG to WebP Converter" />,
+  
+  // --- 🆕 MISSING TOOLS (Add these now) ---
+  "webp-to-jpg": (props) => <ImageConverter {...props} defaultTarget="image/jpeg" title="WebP to JPG Converter" />,
+  "jpg-to-webp": (props) => <ImageConverter {...props} defaultTarget="image/webp" title="JPG to WebP Converter" />,
+  "png-to-bmp": (props) => <ImageConverter {...props} defaultTarget="image/bmp" title="PNG to BMP Converter" />,
+  "bmp-to-png": (props) => <ImageConverter {...props} defaultTarget="image/png" title="BMP to PNG Converter" />,
+  "gif-to-png": (props) => <ImageConverter {...props} defaultTarget="image/png" title="GIF to PNG Converter" />,
+
+  // --- ⚡ OPTIMIZERS ---
   "jpg-to-jpg": (props) => (
-    <ImageConverter
-      {...props}
-      defaultTarget="image/jpeg"
-      title="JPG Optimizer"
-      isOptimizer={true}
-    />
+    <ImageConverter {...props} defaultTarget="image/jpeg" title="JPG Optimizer" isOptimizer={true} />
   ),
   "png-to-png": (props) => (
-    <ImageConverter
-      {...props}
-      defaultTarget="image/png"
-      title="PNG Optimizer"
-      isOptimizer={true}
-    />
+    <ImageConverter {...props} defaultTarget="image/png" title="PNG Optimizer" isOptimizer={true} />
   ),
 };
+
+
+
 // 1. DYNAMIC METADATA (SEO)
 export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params;
@@ -109,6 +103,7 @@ export async function generateMetadata({ params }: PageProps) {
     },
   };
 }
+
 
 // 2. DYNAMIC PAGE
 export default async function ToolPage({ params }: PageProps) {

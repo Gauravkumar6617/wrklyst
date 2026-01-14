@@ -4,37 +4,47 @@ import TrustBar from "../components/Home/TrustBar";
 import FeaturedTools from "../components/Home/FeaturedTools";
 import Testimonials from "../components/Home/Testimonials";
 import CTA from "../components/Home/CTA";
-import Footer from "../components/Home/Footer";
+import VisitorStats from "../components/Home/VisitorStats";
+
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-white">
-      {/* 1. Hero Section */}
       <Hero />
       
-      {/* 2. Floating Features */}
       <div className="relative z-30">
          <FeaturePills />
       </div>
       
-      {/* 3. Trust Bar Strip */}
       <section className="pt-20">
         <TrustBar />
       </section>
 
-      {/* 4. Featured Tools Grid */}
+      {/* --- ADDED HERE --- */}
+      <section className="py-12 bg-slate-50 border-y border-slate-100">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="max-w-md">
+            <h2 className="text-3xl font-[1000] text-[#0F172A] tracking-tighter leading-tight">
+              JOIN A GLOBAL <span className="text-[#5D5FEF]">COMMUNITY</span>
+            </h2>
+            <p className="text-slate-500 font-medium mt-2">
+              Our tools are powering workflows across the globe. See the live engagement.
+            </p>
+          </div>
+          
+          {/* The Component fits perfectly as a floating card here */}
+          <div className="w-full md:w-80 shrink-0">
+            <VisitorStats />
+          </div>
+        </div>
+      </section>
+
       <section className="pt-12 pb-0 bg-white">
         <FeaturedTools />
       </section>
 
-      {/* 5. NEW: Testimonials (Building Trust) */}
       <Testimonials />
-
-      {/* 6. NEW: Final Conversion Section */}
       <CTA />
-
-      {/* 7. NEW: Footer (Navigation & SEO) */}
-     
     </main>
   );
 }
