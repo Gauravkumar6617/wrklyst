@@ -1,8 +1,48 @@
+"use client";
+
 import Footer from '@/app/components/Home/Footer';
 import Navbar from '@/app/components/layout/Navbar';
-import { Mail, MessageSquare, Send, Sparkles, Bug } from 'lucide-react';
+import { useContact } from '@/hooks/contactFormHook';
+import { Mail, MessageSquare, Send, Sparkles, Bug, CheckCircle2 } from 'lucide-react';
+import { useRef, useEffect } from 'react';
 
 export default function ContactPage() {
+  const formRef = useRef<HTMLFormElement>(null);
+  const { loading, error, success, sendContact } = useContact();
+
+  // Reset form when success state changes to true
+  useEffect(() => {
+    if (success && formRef.current) {
+      formRef.current.reset();
+    }
+  }, [success]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formRef.current) return;
+
+    // --- FRONTEND VALIDATION ---
+    const formData = new FormData(formRef.current);
+    const email = formData.get('email') as string;
+    const message = formData.get('message') as string;
+
+    // Simple Email Regex check
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return; // HTML5 validation will usually catch this first
+    }
+
+    if (message.trim().length < 10) {
+       return; // minLength attribute will also handle this
+    }
+
+    try {
+      await sendContact(formData);
+    } catch (err: any) {
+      console.error("Submission failed:", err.message);
+    }
+  };
+
   return (
     <main className="min-h-screen bg-white">
       <Navbar />
@@ -53,40 +93,87 @@ export default function ContactPage() {
 
             {/* Right Side: The Glass Contact Form */}
             <div className="w-full lg:w-[500px] bg-white/80 backdrop-blur-2xl rounded-[40px] p-10 shadow-[0_40px_100px_-15px_rgba(93,95,239,0.15)] border border-white">
-              <form className="space-y-6">
+              <form className="space-y-6" onSubmit={handleSubmit} ref={formRef}>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">First Name</label>
-                    <input type="text" placeholder="John" className="w-full p-4 bg-white rounded-2xl border border-slate-100 outline-none focus:ring-2 focus:ring-[#5D5FEF]/20 transition-all font-medium placeholder:text-slate-300" />
+                    <input 
+                      required
+                      type="text" 
+                      name='firstName' 
+                      placeholder="John" 
+                      className="w-full p-4 bg-white rounded-2xl border border-slate-100 outline-none focus:ring-2 focus:ring-[#5D5FEF]/20 transition-all font-medium placeholder:text-slate-300" 
+                    />
                   </div>
                   <div className="space-y-2">
                     <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Last Name</label>
-                    <input type="text" placeholder="Doe" className="w-full p-4 bg-white rounded-2xl border border-slate-100 outline-none focus:ring-2 focus:ring-[#5D5FEF]/20 transition-all font-medium placeholder:text-slate-300" />
+                    <input 
+                      required
+                      type="text" 
+                      name='lastName' 
+                      placeholder="Doe" 
+                      className="w-full p-4 bg-white rounded-2xl border border-slate-100 outline-none focus:ring-2 focus:ring-[#5D5FEF]/20 transition-all font-medium placeholder:text-slate-300" 
+                    />
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Email Address</label>
-                  <input type="email" placeholder="john@example.com" className="w-full p-4 bg-white rounded-2xl border border-slate-100 outline-none focus:ring-2 focus:ring-[#5D5FEF]/20 transition-all font-medium placeholder:text-slate-300" />
+                  <input 
+                    required
+                    type="email" 
+                    name='email' 
+                    placeholder="john@example.com" 
+                    className="w-full p-4 bg-white rounded-2xl border border-slate-100 outline-none focus:ring-2 focus:ring-[#5D5FEF]/20 transition-all font-medium placeholder:text-slate-300" 
+                  />
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Message</label>
-                  <textarea rows={4} placeholder="How can we help?" className="w-full p-4 bg-white rounded-2xl border border-slate-100 outline-none focus:ring-2 focus:ring-[#5D5FEF]/20 transition-all font-medium resize-none placeholder:text-slate-300"></textarea>
+                  <textarea 
+                    required
+                    minLength={10}
+                    name='message' 
+                    rows={4} 
+                    placeholder="How can we help?" 
+                    className="w-full p-4 bg-white rounded-2xl border border-slate-100 outline-none focus:ring-2 focus:ring-[#5D5FEF]/20 transition-all font-medium resize-none placeholder:text-slate-300"
+                  ></textarea>
                 </div>
 
-                <button className="w-full py-5 bg-[#5D5FEF] text-white rounded-2xl font-bold flex items-center justify-center gap-3 shadow-xl shadow-[#5D5FEF]/30 hover:scale-[1.02] active:scale-[0.98] transition-all">
-                  Send Message
-                  <Send size={18} />
+                {/* State-aware Submit Button */}
+                <button 
+                  type="submit"
+                  disabled={loading}
+                  className={`w-full py-5 text-white rounded-2xl font-bold flex items-center justify-center gap-3 shadow-xl transition-all ${
+                    loading 
+                    ? 'bg-slate-400 cursor-not-allowed' 
+                    : 'bg-[#5D5FEF] shadow-[#5D5FEF]/30 hover:scale-[1.02] active:scale-[0.98]'
+                  }`}
+                >
+                  {loading ? "Sending..." : "Send Message"}
+                  {!loading && <Send size={18} />}
                 </button>
 
-                {/* Personal Note */}
+                {/* Feedback Messages */}
+                {error && (
+                  <div className="p-4 bg-red-50 rounded-xl border border-red-100 flex items-center gap-3 text-red-600 text-sm font-bold">
+                    <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
+                    {error}
+                  </div>
+                )}
+                
+                {success && (
+                  <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-100 flex items-center gap-3 text-emerald-600 text-sm font-bold animate-in fade-in slide-in-from-top-2">
+                    <CheckCircle2 size={18} />
+                    {success}
+                  </div>
+                )}
+
                 <p className="text-center text-[11px] text-slate-400 font-bold uppercase tracking-wider mt-4">
                   ✨ We love to hear from you!
                 </p>
               </form>
             </div>
-
           </div>
         </div>
       </section>
@@ -111,7 +198,6 @@ export default function ContactPage() {
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
-            {/* Tool Request Box */}
             <div className="p-8 bg-white rounded-[32px] border border-slate-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 group">
               <div className="w-12 h-12 bg-purple-50 rounded-2xl flex items-center justify-center text-purple-500 mb-4 group-hover:scale-110 transition-transform">
                 <Sparkles size={24} />
@@ -122,7 +208,6 @@ export default function ContactPage() {
               </p>
             </div>
 
-            {/* Bug Report Box */}
             <div className="p-8 bg-white rounded-[32px] border border-slate-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 group">
               <div className="w-12 h-12 bg-red-50 rounded-2xl flex items-center justify-center text-red-500 mb-4 group-hover:scale-110 transition-transform">
                 <Bug size={24} />
@@ -135,8 +220,8 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
+      
 
- 
     </main>
   );
 }

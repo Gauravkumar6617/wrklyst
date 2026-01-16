@@ -23,6 +23,8 @@ import PasswordChecker from "@/app/components/Tools/PasswordChecker/PasswordChec
 import PasswordGenerator from "@/app/components/Tools/PasswordGenerator/PasswordGenerator";
 import CommentRemover from "@/app/components/Tools/CommentRemover/CommentRemover";
 import ImageConverter from "@/app/components/Tools/ImageTools/ImageConverter/ImageConverter";
+import PdfToImage from "@/app/components/Tools/PdfTools/PdfToImage";
+import ImageToPdf from "@/app/components/Tools/PdfTools/ImageToPdf";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -82,6 +84,19 @@ const TOOL_COMPONENTS: Record<string, React.ComponentType<any>> = {
   "png-to-png": (props) => (
     <ImageConverter {...props} defaultTarget="image/png" title="PNG Optimizer" isOptimizer={true} />
   ),
+ // --- 📄 PDF TOOLS ---
+ "pdf-to-jpg": (props) => <PdfToImage {...props} format="image/jpeg" />,
+ "pdf-to-png": (props) => <PdfToImage {...props} format="image/png" />,
+ 
+ // New Separate Tools
+ "image-to-pdf": ImageToPdf, // General version
+ "jpg-to-pdf": (props) => (
+   <ImageToPdf {...props} title="JPG to PDF Converter" acceptedTypes="image/jpeg" />
+ ),
+ "png-to-pdf": (props) => (
+   <ImageToPdf {...props} title="PNG to PDF Converter" acceptedTypes="image/png" />
+ ),
+  
 };
 
 
