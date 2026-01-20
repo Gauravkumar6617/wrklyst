@@ -4,7 +4,8 @@ export type ToolCategory =
   | "Security"
   | "Image"
   | "PDF"
-  | "Converter";
+  | "Converter"
+  | "Utilities";
 
 export interface ToolConfig {
   title: string; // For the <title> tag
@@ -14,6 +15,9 @@ export interface ToolConfig {
   schemaType: "SoftwareApplication" | "WebApplication";
   name: string; // Simple name for UI components
   category: ToolCategory;
+  apiEndpoint?: string; // e.g., "/api/v1/pdf/merge"
+  apiStatus?: "stable" | "beta" | "deprecated";
+  isPremium?: boolean; // To show "Pro" badge in the API docs
 }
 export const TOOLS_CONFIG: Record<string, ToolConfig> = {
   "word-counter": {
@@ -369,8 +373,10 @@ export const TOOLS_CONFIG: Record<string, ToolConfig> = {
     name: "PDF to JPG",
     h1: "Convert PDF Pages to JPG Images",
     title: "PDF to JPG Converter - High Quality & 100% Private",
-    description: "Convert every page of your PDF into high-quality JPG images instantly in your browser. No file uploads, 100% secure and private.",
-    keywords: "pdf to jpg, convert pdf to image, pdf extractor, high quality jpg from pdf",
+    description:
+      "Convert every page of your PDF into high-quality JPG images instantly in your browser. No file uploads, 100% secure and private.",
+    keywords:
+      "pdf to jpg, convert pdf to image, pdf extractor, high quality jpg from pdf",
     schemaType: "WebApplication",
     category: "PDF",
   },
@@ -378,16 +384,19 @@ export const TOOLS_CONFIG: Record<string, ToolConfig> = {
     name: "PDF to PNG",
     h1: "Convert PDF Pages to PNG Images",
     title: "PDF to PNG Converter - Lossless Quality Online",
-    description: "Turn your PDF document into crisp, lossless PNG images. Processes entirely in your browser to keep your data safe.",
-    keywords: "pdf to png, pdf to lossless image, convert pdf pages, browser-based pdf converter",
+    description:
+      "Turn your PDF document into crisp, lossless PNG images. Processes entirely in your browser to keep your data safe.",
+    keywords:
+      "pdf to png, pdf to lossless image, convert pdf pages, browser-based pdf converter",
     schemaType: "WebApplication",
     category: "PDF",
   },
-"jpg-to-pdf": {
+  "jpg-to-pdf": {
     name: "JPG to PDF",
     h1: "Convert JPG Images to PDF",
     title: "JPG to PDF Converter - Merge JPGs into a PDF Online",
-    description: "Convert your JPG images into a professional PDF document. Fast, private, and works entirely in your browser.",
+    description:
+      "Convert your JPG images into a professional PDF document. Fast, private, and works entirely in your browser.",
     keywords: "jpg to pdf, convert jpg to pdf, merge images to pdf",
     schemaType: "WebApplication",
     category: "Image",
@@ -396,9 +405,205 @@ export const TOOLS_CONFIG: Record<string, ToolConfig> = {
     name: "PNG to PDF",
     h1: "Convert PNG Images to PDF",
     title: "PNG to PDF Converter - High Quality PNG to PDF",
-    description: "Easily turn your PNG files into a single PDF document without losing quality. 100% secure and private.",
+    description:
+      "Easily turn your PNG files into a single PDF document without losing quality. 100% secure and private.",
     keywords: "png to pdf, convert png to pdf, png merge pdf",
     schemaType: "WebApplication",
     category: "Image",
+  },
+  "protect-pdf": {
+    name: "Protect PDF",
+    h1: "Encrypt PDF with Password",
+    title: "Protect PDF - Add Password & Permissions Online",
+    description:
+      "Secure your PDF documents with strong encryption. Set passwords to restrict opening, printing, and copying.",
+    keywords: "protect pdf, encrypt pdf, password protect pdf",
+    schemaType: "WebApplication",
+    category: "PDF",
+  },
+
+  "pdf-to-word": {
+    name: "PDF to Word",
+    h1: "Convert PDF to Word Online",
+    title: "PDF to Word Converter - 100% Free - Wrklyst",
+    description:
+      "Easily convert your PDF files into easy to edit DOC and DOCX documents. The converted WORD document is almost 100% accurate.",
+    keywords:
+      "pdf to word, convert pdf to docx, pdf to doc, online pdf converter",
+    category: "PDF",
+    schemaType: "WebApplication",
+  },
+  "pdf-to-powerpoint": {
+    name: "PDF to PowerPoint",
+    h1: "Convert PDF to PowerPoint Online",
+    title: "PDF to PPTX Converter - Wrklyst",
+    description:
+      "Turn your PDF files into easy to edit PPT and PPTX slideshows. High-quality conversion that preserves your layout.",
+    keywords:
+      "pdf to powerpoint, convert pdf to pptx, pdf to ppt, online pdf converter, pdf to slides, free pdf to powerpoint, convert pdf to presentation",
+    category: "PDF",
+    schemaType: "WebApplication",
+  },
+  "pdf-to-excel": {
+    name: "PDF to Excel",
+    title: "Convert PDF to Excel Online - Free Data Extraction | Wrklyst",
+    description:
+      "Extract tables and data from PDF to Excel (XLSX) spreadsheets accurately without registration.",
+    h1: "PDF to Excel Converter",
+    keywords: "pdf to excel, pdf to xlsx, extract pdf tables, data conversion",
+    schemaType: "WebApplication",
+
+    category: "PDF",
+  },
+  "pdf-to-html": {
+    title: "Convert PDF to HTML Online - Web Ready Code | Wrklyst",
+    description:
+      "Transform your PDF documents into clean, responsive HTML code. Perfect for web developers and digital archiving.",
+    h1: "PDF to HTML Converter",
+    keywords:
+      "pdf to html, convert pdf to web page, pdf to code, responsive html",
+    schemaType: "SoftwareApplication",
+    name: "PDF to HTML",
+    category: "PDF",
+  },
+  "merge-pdf": {
+    title: "Merge PDF Online - Combine PDF Files for Free | Wrklyst",
+    description:
+      "Combine multiple PDF files into one document in seconds. Safe, secure, and preserves formatting. Available via web and Developer API.",
+    h1: "Merge PDF Documents",
+    keywords:
+      "merge pdf, combine pdf, join pdf files, pdf merger api, developer pdf api",
+    schemaType: "SoftwareApplication",
+    name: "PDF Merger",
+    category: "PDF",
+    apiEndpoint: "/api/v1/pdf/merge",
+    apiStatus: "stable",
+    isPremium: true,
+  },
+  "split-pdf": {
+    title: "Split PDF Online - Extract Pages via API | Wrklyst",
+    description:
+      "Split PDF files into individual pages or extract specific ranges instantly. High-performance REST API for developers and businesses.",
+    h1: "Split PDF Files",
+    keywords:
+      "split pdf, extract pages from pdf, pdf splitter api, automate pdf splitting, pdf page extractor",
+    schemaType: "SoftwareApplication",
+    name: "Split PDF",
+    category: "PDF",
+    apiEndpoint: "/api/v1/pdf/split",
+    apiStatus: "stable",
+    isPremium: true,
+  },
+  "compress-pdf": {
+    title: "Compress PDF API - High Fidelity Optimization | Wrklyst",
+    h1: "PDF Compression Service",
+    description:
+      "Enterprise-grade PDF compression API. Reduce file sizes by up to 90% without losing text or image quality.",
+    keywords:
+      "compress pdf api, pdf optimizer api, reduce pdf size developer, rest api pdf compression",
+    schemaType: "SoftwareApplication",
+    name: "Compress PDF",
+    category: "PDF",
+    apiEndpoint: "/api/v1/pdf/compress",
+    apiStatus: "stable",
+    isPremium: true,
+  },
+  "unlock-pdf": {
+    title: "Unlock PDF - Remove Password & Restrictions | Wrklyst",
+    description:
+      "Instantly remove passwords, printing, and editing restrictions from PDF files. Our API-driven tool uses 256-bit AES decryption for secure, lossless unlocking.",
+    h1: "Unlock Protected PDF Documents",
+    keywords:
+      "unlock pdf, remove pdf password, pdf decrypter api, bypass pdf security, remove pdf restrictions, qpdf online",
+    schemaType: "WebApplication",
+    name: "Unlock PDF",
+    category: "Security", // Assuming "Security" or "PDF" is in your ToolCategory type
+    apiEndpoint: "/api/v1/pdf/unlock",
+    apiStatus: "stable",
+    isPremium: false,
+  },
+  "pdf-to-pdfa": {
+    title: "PDF to PDF/A Converter - Long-Term Archival | Wrklyst",
+    description:
+      "Convert your PDF documents to ISO-standard PDF/A for long-term storage and legal compliance. Ensure your files remain readable for decades.",
+    h1: "Convert PDF to Archive Format (PDF/A)",
+    keywords:
+      "pdf to pdf/a, convert pdf/a online, archive pdf api, legal document storage, pdf/a-2b conversion",
+    schemaType: "WebApplication",
+    name: "PDF to PDF/A",
+    category: "PDF",
+    apiEndpoint: "/api/v1/pdf/convert-archive",
+    apiStatus: "stable",
+    isPremium: true, // This is often a premium feature in SaaS
+  },
+  "age-calculator": {
+    title: "Age Calculator - Exact Age in Years, Months, Days | Wrklyst",
+    description:
+      "Calculate your exact age in years, months, days, hours, and minutes. Find out your upcoming birthday and zodiac sign instantly.",
+    h1: "Calculate Your Exact Age",
+    keywords:
+      "age calculator, chronological age, how old am i, birthday calculator, age api",
+    schemaType: "WebApplication",
+    name: "Age Calculator",
+    category: "Utilities",
+    apiEndpoint: "/api/v1/utilities/age-calculator",
+    apiStatus: "stable",
+    isPremium: false,
+  },
+  "date-difference": {
+    title: "Date Difference Calculator - Days Between Two Dates | Wrklyst",
+    description:
+      "Calculate the exact number of days, weeks, months, and years between two dates. Includes options for business days and leap year counting.",
+    h1: "Date Difference & Duration Calculator",
+    keywords:
+      "date difference, days between dates, duration calculator, day counter, date gap api, working days calculator",
+    schemaType: "WebApplication",
+    name: "Date Difference",
+    category: "Utilities",
+    apiEndpoint: "/api/v1/utilities/date-difference",
+    apiStatus: "stable",
+    isPremium: false,
+  },
+  "ip-checker": {
+    title: "IP Address Checker - What is my IP Address? | Wrklyst",
+    description:
+      "Find your public IP address (IPv4/IPv6), location, ISP, and network details instantly. Secure and fast IP lookup tool.",
+    h1: "My IP Address Details",
+    keywords:
+      "what is my ip, ip address checker, ip lookup, track ip location, isp checker, public ip api",
+    schemaType: "WebApplication",
+    name: "IP Checker",
+    category: "Utilities",
+    apiEndpoint: "/api/v1/utilities/ip-checker",
+    apiStatus: "stable",
+    isPremium: false,
+  },
+  "speed-test": {
+    title: "Internet Speed Test - Check Your Download & Upload Mbps | Wrklyst",
+    description:
+      "Test your internet connection speed instantly. Measure your download speed, upload speed, and ping latency to our secure servers. Free, fast, and no ads.",
+    h1: "Internet Speed Test",
+    keywords:
+      "speed test, internet speed, wifi speed test, broadband speed, bandwidth test api, check my mbps, ping test, network latency",
+    schemaType: "WebApplication",
+    name: "Speed Test",
+    category: "Utilities",
+    apiEndpoint: "/api/v1/utilities/speed-test/download",
+    apiStatus: "stable",
+    isPremium: false,
+  },
+  "qr-generator": {
+    title: "Advanced QR Code Generator - Custom WiFi, URL & V-Cards | Wrklyst",
+    description:
+      "Create high-resolution custom QR codes for free. Supports WiFi auto-connect, URL redirection, and V-Card contacts. Customize colors and download in print-ready PNG format.",
+    h1: "Professional QR Code Studio",
+    keywords:
+      "qr code generator, wifi qr code, custom qr code with color, high res qr code, qr code for business cards, scan to connect wifi, free qr generator",
+    schemaType: "WebApplication",
+    name: "QR Code Studio",
+    category: "Utilities",
+    apiEndpoint: "/api/v1/utilities/qr-generator",
+    apiStatus: "stable",
+    isPremium: false,
   },
 };
