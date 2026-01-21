@@ -84,6 +84,7 @@ export default function IpChecker() {
         {/* LEFT COLUMN: PRIMARY IP DATA (8 Columns) */}
         <div className="lg:col-span-8 space-y-6">
           {/* Main IP Card */}
+          {/* Main IP Card */}
           <div className="bg-[#0B0F1A] border border-slate-800 rounded-[48px] p-10 relative overflow-hidden group shadow-2xl">
             <div className="absolute top-0 right-0 p-10 opacity-5 group-hover:opacity-10 transition-opacity">
               <Globe size={240} />
@@ -93,20 +94,59 @@ export default function IpChecker() {
               <div className="flex items-center gap-2 mb-6">
                 <Radio className="text-emerald-500 animate-pulse" size={16} />
                 <span className="text-[10px] font-black text-slate-500 uppercase tracking-[4px]">
-                  Global Broadcast Address
+                  Global Dual-Stack Trace
                 </span>
               </div>
 
-              <div className="flex flex-col md:flex-row md:items-end gap-4 md:gap-8">
-                <h2 className="text-6xl md:text-7xl font-black text-white tracking-tighter break-all">
-                  {loading ? "---.---.---.---" : data?.ip}
-                </h2>
-                <button
-                  onClick={() => copyToClipboard(data?.ip)}
-                  className="w-fit p-4 bg-slate-800 text-slate-400 hover:bg-emerald-500 hover:text-white rounded-2xl transition-all"
-                >
-                  <Copy size={24} />
-                </button>
+              {/* Primary Huge Display */}
+              <div className="space-y-2">
+                <p className="text-[9px] font-black text-emerald-500/50 uppercase tracking-widest">
+                  Primary Uplink ({data?.current_version})
+                </p>
+                <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-8">
+                  <h2 className="text-5xl md:text-7xl font-black text-white tracking-tighter break-all">
+                    {loading ? "---.---.---.---" : data?.primary_ip}
+                  </h2>
+                  <button
+                    onClick={() => copyToClipboard(data?.primary_ip)}
+                    className="w-fit p-4 bg-slate-800 text-slate-400 hover:bg-emerald-500 hover:text-white rounded-2xl transition-all"
+                  >
+                    <Copy size={24} />
+                  </button>
+                </div>
+              </div>
+
+              {/* Secondary IP (The other version) */}
+              <div className="mt-8 p-6 bg-slate-900/50 border-l-2 border-emerald-500 rounded-r-2xl max-w-2xl">
+                <div className="flex items-center justify-between gap-4">
+                  <div>
+                    <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1">
+                      Secondary Protocol (
+                      {data?.current_version === "IPv4" ? "IPv6" : "IPv4"})
+                    </p>
+                    <p className="text-md font-mono font-bold text-slate-300 break-all">
+                      {loading
+                        ? "Detecting..."
+                        : data?.current_version === "IPv4"
+                          ? data?.ipv6 || "No IPv6 detected"
+                          : data?.ipv4 || "No IPv4 detected"}
+                    </p>
+                  </div>
+                  {(data?.ipv6 || data?.ipv4) && (
+                    <button
+                      onClick={() =>
+                        copyToClipboard(
+                          data?.current_version === "IPv4"
+                            ? data?.ipv6
+                            : data?.ipv4,
+                        )
+                      }
+                      className="p-2 text-slate-600 hover:text-emerald-400 transition-colors"
+                    >
+                      <Copy size={16} />
+                    </button>
+                  )}
+                </div>
               </div>
 
               <div className="mt-10 flex flex-wrap gap-4">

@@ -1,36 +1,76 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
+  console.log("📥 Incoming request");
+
   try {
-    // 1. ADVANCED IP DETECTION (TS SAFE)
-    const forwarded = req.headers.get("x-forwarded-for");
-    // Use a fallback for local development
-    const ip = (forwarded ? forwarded.split(",")[0] : "127.0.0.1").trim();
+    // 1. Read x-forwarded-for header
+    const forwarded = req.headers.get("x-forwarded-for") || "";
+    console.log("🔗 x-forwarded-for:", forwarded);
 
-    // 2. DETECT VERSION (v4 vs v6)
-    const isIPv6 = ip.includes(":");
-    const version = isIPv6 ? "IPv6" : "IPv4";
+    // 2. Parse IP chain
+    const ips = forwarded
+      .split(",")
+      .map((ip) => ip.trim())
+      .filter(Boolean);
 
-    // 3. FETCH DATA
-    const geoRes = await fetch(
-      `http://ip-api.com/json/${ip}?fields=status,message,country,countryCode,regionName,city,zip,lat,lon,timezone,isp,org,as,mobile,proxy,hosting,query`,
-    );
-    const geoData = await geoRes.json();
+    console.log("🧩 Parsed IP chain:", ips);
 
-    // 4. CALCULATE IP DECIMAL (Strict Typing)
+    // Normalize IPv4-mapped IPv6 (::ffff:127.0.0.1)
+    const normalizeIp = (ip: string) =>
+      ip.startsWith("::ffff:") ? ip.replace("::ffff:", "") : ip;
+
+    const normalizedIps = ips.map(normalizeIp);
+
+    // 3. Detect IPv4 and IPv6
+    const ipv4 =
+      normalizedIps.find((ip) => !ip.includes(":") && ip !== "127.0.0.1") ||
+      null;
+
+    const ipv6 =
+      normalizedIps.find((ip) => ip.includes(":") && ip !== "::1") || null;
+
+    // 4. Primary IP (first real public IP or fallback)
+    const primaryIp = ipv4 || ipv6 || "127.0.0.1";
+
+    const currentVersion = primaryIp.includes(":") ? "IPv6" : "IPv4";
+
+    console.log("🌐 Primary IP:", primaryIp);
+    console.log("📡 IP Version:", currentVersion);
+
+    // 5. Fetch geo data (skip localhost)
+    let geoData: any = {};
+    if (primaryIp !== "127.0.0.1" && primaryIp !== "::1") {
+      const geoUrl = `http://ip-api.com/json/${primaryIp}?fields=status,message,country,countryCode,regionName,city,zip,lat,lon,timezone,isp,org,as,mobile,proxy,hosting,query`;
+
+      console.log("📍 Fetching geo data:", geoUrl);
+
+      const geoRes = await fetch(geoUrl);
+      geoData = await geoRes.json();
+
+      console.log("🗺️ Geo response:", geoData);
+    } else {
+      console.log("⚠️ Localhost detected, skipping geo lookup");
+    }
+
+    // 6. IPv4 decimal conversion
     let ipDecimal: number | null = null;
-    if (!isIPv6 && ip !== "127.0.0.1") {
+    if (ipv4) {
       ipDecimal =
-        ip.split(".").reduce((acc: number, octet: string) => {
-          return (acc << 8) + parseInt(octet, 10);
-        }, 0) >>> 0;
+        ipv4
+          .split(".")
+          .reduce((acc, octet) => (acc << 8) + Number(octet), 0) >>> 0;
+
+      console.log("🔢 IPv4 Decimal:", ipDecimal);
     }
 
     return NextResponse.json({
       status: "success",
       data: {
-        ip,
-        version,
+        primary_ip: primaryIp,
+        current_version: currentVersion,
+        ipv4,
+        ipv6,
         decimal: ipDecimal,
         location: {
           city: geoData.city || "Unknown",
@@ -39,12 +79,14 @@ export async function GET(req: NextRequest) {
           timezone: geoData.timezone || "UTC",
         },
         security: {
-          is_vpn: geoData.proxy || false,
-          is_hosting: geoData.hosting || false,
+          is_vpn: geoData.proxy ?? false,
+          is_hosting: geoData.hosting ?? false,
         },
       },
     });
   } catch (error) {
+    console.error("❌ Trace failed:", error);
+
     return NextResponse.json(
       { status: "error", message: "Trace failed" },
       { status: 500 },
