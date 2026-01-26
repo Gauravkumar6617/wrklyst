@@ -2,29 +2,29 @@
 
 import React from "react";
 import dynamic from "next/dynamic";
-import WordCounter from "@/app/components/Tools/WordCounter/WordCounter";
+import WordCounter from "@/app/components/Tools/WritingTool/WordCounter/WordCounter";
 import { TOOLS_CONFIG } from "@/lib/tools-data";
-import TextCompare from "@/app/components/Tools/TextCompare/TextCompare";
-import TextFormatter from "@/app/components/Tools/TextFormatter/TextFormatter";
-import JsonFormatter from "@/app/components/Tools/JsonFormatter/JsonFormatter";
-import CodeBeautifier from "@/app/components/Tools/CodeBeautifier/CodeBeautifier";
-import DummyTextGenerator from "@/app/components/Tools/DummyTextGenerator/DummyTextGenerator";
-import ConverterTool from "@/app/components/Tools/ConverterTool/ConverterTool";
-import GrammarChecker from "@/app/components/Tools/GrammarChecker/GrammarChecker";
-import RemoveSpecialChars from "@/app/components/Tools/RemoveSpecialChars/RemoveSpecialChars";
-import RemoveEmojis from "@/app/components/Tools/RemoveEmojis/RemoveEmojis";
-import JsonToCsv from "@/app/components/Tools/JsonToCsv/JsonToCsv";
+import TextCompare from "@/app/components/Tools/WritingTool/TextCompare/TextCompare";
+import TextFormatter from "@/app/components/Tools/WritingTool/TextFormatter/TextFormatter";
+import JsonFormatter from "@/app/components/Tools/DeveloperTools/JsonFormatter/JsonFormatter";
+import CodeBeautifier from "@/app/components/Tools/DeveloperTools/CodeBeautifier/CodeBeautifier";
+import DummyTextGenerator from "@/app/components/Tools/WritingTool/DummyTextGenerator/DummyTextGenerator";
+import ConverterTool from "@/app/components/Tools/DeveloperTools/ConverterTool/ConverterTool";
+import GrammarChecker from "@/app/components/Tools/WritingTool/GrammarChecker/GrammarChecker";
+import RemoveSpecialChars from "@/app/components/Tools/WritingTool/RemoveSpecialChars/RemoveSpecialChars";
+import RemoveEmojis from "@/app/components/Tools/WritingTool/RemoveEmojis/RemoveEmojis";
+import JsonToCsv from "@/app/components/Tools/DeveloperTools/JsonToCsv/JsonToCsv";
 import TimestampConverter from "@/app/components/Tools/TimestampConverter/TimestampConverter";
-import HashGenerator from "@/app/components/Tools/HashGenerator/HashGenerator";
-import HtpasswdGenerator from "@/app/components/Tools/HtpasswdGenerator/HtpasswdGenerator";
-import EmojiConverter from "@/app/components/Tools/EmojiConverter/EmojiConverter";
-import TextSummarizer from "@/app/components/Tools/TextSummarizer/TextSummarizer";
-import ReadabilityChecker from "@/app/components/Tools/ReadabilityChecker/ReadabilityChecker";
-import KeywordDensity from "@/app/components/Tools/KeywordDensity/KeywordDensity";
-import RegexTester from "@/app/components/Tools/RegexTester/RegexTester";
-import PasswordChecker from "@/app/components/Tools/PasswordChecker/PasswordChecker";
-import PasswordGenerator from "@/app/components/Tools/PasswordGenerator/PasswordGenerator";
-import CommentRemover from "@/app/components/Tools/CommentRemover/CommentRemover";
+import HashGenerator from "@/app/components/Tools/DeveloperTools/HashGenerator/HashGenerator";
+import HtpasswdGenerator from "@/app/components/Tools/DeveloperTools/HtpasswdGenerator/HtpasswdGenerator";
+import EmojiConverter from "@/app/components/Tools/WritingTool/EmojiConverter/EmojiConverter";
+import TextSummarizer from "@/app/components/Tools/WritingTool/TextSummarizer/TextSummarizer";
+import ReadabilityChecker from "@/app/components/Tools/WritingTool/ReadabilityChecker/ReadabilityChecker";
+import KeywordDensity from "@/app/components/Tools/WritingTool/KeywordDensity/KeywordDensity";
+import RegexTester from "@/app/components/Tools/DeveloperTools/RegexTester/RegexTester";
+import PasswordChecker from "@/app/components/Tools/DeveloperTools/PasswordChecker/PasswordChecker";
+import PasswordGenerator from "@/app/components/Tools/DeveloperTools/PasswordGenerator/PasswordGenerator";
+import CommentRemover from "@/app/components/Tools/DeveloperTools/CommentRemover/CommentRemover";
 import ImageConverter from "@/app/components/Tools/ImageTools/ImageConverter/ImageConverter";
 import PdfToImage from "@/app/components/Tools/PdfTools/PdfToImage";
 import ImageToPdf from "@/app/components/Tools/PdfTools/ImageToPdf";
@@ -33,6 +33,7 @@ import DateDifference from "@/app/components/Tools/Utilities/DateDifference/Date
 import IpChecker from "@/app/components/Tools/Utilities/IpChecker/IpChecker";
 import SpeedTest from "@/app/components/Tools/Utilities/SpeedTest/SpeedTest";
 import QrGenerator from "@/app/components/Tools/Utilities/QrGenerator/QrGenerator";
+import LineSorter from "@/app/components/Tools/WritingTool/LineSorter/LineSorter";
 
 // Dynamically import the PDF tool with SSR disabled
 const ProtectPdf = dynamic(
@@ -91,6 +92,7 @@ const TOOL_COMPONENTS: Record<string, React.ComponentType<any>> = {
   "remove-special-characters": RemoveSpecialChars,
   "remove-emojis": RemoveEmojis,
   "emoji-converter": EmojiConverter,
+  "line-sorter": LineSorter,
 
   // --- 💻 DEVELOPER & DATA TOOLS ---
   "json-formatter": JsonFormatter,

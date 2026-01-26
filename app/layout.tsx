@@ -45,15 +45,16 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/site.webmanifest" />
       </head>
-      <body className="bg-mesh min-h-screen antialiased">
+
+      <body className="bg-mesh min-h-screen antialiased selection:bg-indigo-100 selection:text-indigo-700">
         <GoogleOAuthProvider clientId={googleClientId}>
           <Navbar />
+          {/* This wrapper is the key: it pushes everything down exactly enough */}
+          <main className="pt-[100px] lg:pt-0 pb-20">{children}</main>
           <NewsletterModal />
           <Toaster position="bottom-center" />
-          {children}
         </GoogleOAuthProvider>
       </body>
     </html>
   );
 }
-

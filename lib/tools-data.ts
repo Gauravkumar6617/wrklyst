@@ -419,7 +419,7 @@ export const TOOLS_CONFIG: Record<string, ToolConfig> = {
       "Secure your PDF documents with strong encryption. Set passwords to restrict opening, printing, and copying.",
     keywords: "protect pdf, encrypt pdf, password protect pdf",
     schemaType: "WebApplication",
-    category: "PDF",
+    category: "Security",
   },
 
   "pdf-to-word": {
