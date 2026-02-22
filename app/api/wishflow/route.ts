@@ -1,34 +1,34 @@
-import { NextRequest, NextResponse } from "next/server";
+// app/utils/wishflow.ts
 
-export async function POST(req: NextRequest) {
-  try {
-    const body = await req.json();
-
-    const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
-
-    const response = await fetch(`${BASE_URL}/api/v1/wish-flow/reminder`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        ...body,
-        event_datetime: body.send_datetime,
-      }),
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      return NextResponse.json(
-        { error: errorData.detail || "WishFlow Failed" },
-        { status: response.status },
-      );
-    }
-
-    const data = await response.json();
-    return NextResponse.json(data);
-  } catch (error) {
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 },
-    );
-  }
+export interface WishData {
+  email: string;
+  event_title: string;
+  message: string;
+  send_datetime: string;
 }
+
+export const dispatchWish = async (data: WishData) => {
+  // 1. Fallback to localhost:8000 if the env variable is missing
+  const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+
+  // 2. Ensure we use /api/v1 (with a slash) as defined in your FastAPI prefix
+  const url = `${BASE_URL}/api/v1/wish-flow/reminder`;
+
+  console.log("Wrklyst Dispatching to:", url); // Debugging line
+
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      ...data,
+      event_datetime: data.send_datetime,
+    }),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.detail || "WishFlow Protocol Failed");
+  }
+
+  return response.json();
+};
