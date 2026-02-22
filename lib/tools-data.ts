@@ -5,7 +5,8 @@ export type ToolCategory =
   | "Image"
   | "PDF"
   | "Converter"
-  | "Utilities";
+  | "Utilities"
+  | "Automation";
 
 export interface ToolConfig {
   title: string; // For the <title> tag
@@ -603,6 +604,64 @@ export const TOOLS_CONFIG: Record<string, ToolConfig> = {
     name: "QR Code Studio",
     category: "Utilities",
     apiEndpoint: "/api/v1/utilities/qr-generator",
+    apiStatus: "stable",
+    isPremium: false,
+  },
+  "wish-flow": {
+    title:
+      "WishFlow | Automated Employee Milestone & Anniversary Dispatcher | Wrklyst",
+    description:
+      "Automate corporate culture with high-precision milestone delivery. Schedule branded birthday wishes and work anniversary emails with a secure, asynchronous heartbeat engine.",
+    h1: "Milestone Automation Protocol",
+    keywords:
+      "employee milestone automation, automated work anniversary emails, corporate birthday scheduler, hr automation tools, scheduled email dispatcher, milestone heartbeat engine, wrklyst wishflow",
+    schemaType: "SoftwareApplication",
+    name: "WishFlow",
+    category: "Automation",
+    apiEndpoint: "/api/v1/wish-flow/reminder",
+    apiStatus: "stable",
+    isPremium: false,
+  },
+  "pdf-edit": {
+    title:
+      "PDF Architect | Professional Online PDF Editor & Annotator | Wrklyst",
+    description:
+      "Edit PDF text, add layers, and annotate documents with precision. Our PDF Architect tool provides high-fidelity document engineering without the need for expensive software. Secure, private, and fast.",
+    h1: "Professional PDF Architect",
+    keywords:
+      "pdf editor online, edit pdf text, pdf architect, annotate pdf, add text to pdf, free pdf editor, professional document engineering, wrklyst pdf tools",
+    schemaType: "WebApplication",
+    name: "PDF Architect",
+    category: "PDF",
+    apiEndpoint: "/api/v1/pdf/process",
+    apiStatus: "stable",
+    isPremium: false,
+  },
+  "pdf-edits": {
+    title: "PDF Architect | Edit, Redact & Modify PDF Text Online",
+    description:
+      "Professional browser-based PDF text engineering. Redact sensitive info, edit existing text, and modify layouts with atomic precision.",
+    h1: "PDF Architect: Document Engineering Studio",
+    keywords:
+      "edit pdf text, pdf redaction tool, online pdf editor, pdf architect, document manipulation",
+    schemaType: "SoftwareApplication",
+    category: "PDF",
+    name: "Architect",
+    apiEndpoint: "/api/v1/pdf/process",
+    apiStatus: "stable",
+    isPremium: false,
+  },
+  "rotate-pdf": {
+    title: "Rotate PDF Online | Permanently Change PDF Orientation",
+    description:
+      "Rotate PDF pages 90 or 180 degrees clockwise or counter-clockwise. Permanently fix upside-down scans and save them instantly in your browser.",
+    h1: "Rotate PDF Pages Permanently",
+    keywords:
+      "rotate pdf, flip pdf online, change pdf orientation, rotate upside down pdf, fix pdf rotation, free pdf rotator",
+    schemaType: "SoftwareApplication",
+    category: "PDF",
+    name: "PDF Rotator",
+    apiEndpoint: "/api/v1/pdf/rotate", // Or local-client-side
     apiStatus: "stable",
     isPremium: false,
   },

@@ -34,6 +34,9 @@ import IpChecker from "@/app/components/Tools/Utilities/IpChecker/IpChecker";
 import SpeedTest from "@/app/components/Tools/Utilities/SpeedTest/SpeedTest";
 import QrGenerator from "@/app/components/Tools/Utilities/QrGenerator/QrGenerator";
 import LineSorter from "@/app/components/Tools/WritingTool/LineSorter/LineSorter";
+import WishFlowPage from "@/app/components/Tools/wishflow/wishflow";
+import RotatePdf from "@/app/components/Tools/Pdf/RotatePdf/RotatePdf";
+// import PdfEdit from "@/app/components/Tools/Pdf/PdfEdit/PdfEdit";
 
 // Dynamically import the PDF tool with SSR disabled
 const ProtectPdf = dynamic(
@@ -55,8 +58,10 @@ const PdfToPpt = dynamic(
   () => import("@/app/components/Tools/Pdf/PdfToPpt/PdfToPpt"),
   { ssr: false },
 );
-const PdfToExcel = dynamic(
-  () => import("@/app/components/Tools/Pdf/PdfToExcel/PdfToExcel"),
+const PdfToExcel = dynamic(() =>
+  import("@/app/components/Tools/Pdf/PdfToExcel/PdfToExcel").then(
+    (mod) => mod.default,
+  ),
 );
 const PdfToHtml = dynamic(
   () => import("@/app/components/Tools/Pdf/PdfToHtml/PdfToHtml"),
@@ -77,6 +82,7 @@ const PdfUnlock = dynamic(
 const PdfToPdfA = dynamic(
   () => import("@/app/components/Tools/Pdf/PdfToPdfA/PdfToPdfA"),
 );
+
 // Add your other tools here
 const TOOL_COMPONENTS: Record<string, React.ComponentType<any>> = {
   // --- ✍️ WRITING & CONTENT TOOLS ---
@@ -231,12 +237,16 @@ const TOOL_COMPONENTS: Record<string, React.ComponentType<any>> = {
   "compress-pdf": PdfCompress,
   "pdf-to-pdfa": PdfToPdfA,
 
+  "rotate-pdf": RotatePdf,
+  // "pdf-edits": PdfEdit,
   ////utility///
   "age-calculator": AgeCalculator,
   "date-difference": DateDifference,
   "ip-checker": IpChecker,
   "speed-test": SpeedTest,
   "qr-generator": QrGenerator,
+
+  "wish-flow": WishFlowPage,
 };
 
 export default function ToolRenderer({
