@@ -58,7 +58,7 @@ export default async function ToolPage({ params }: PageProps) {
         <p className="text-slate-500 mt-2">{tool.description}</p>
       </div>
 
-      <div className="bg-white rounded-[40px] p-10 border border-slate-100 shadow-sm">
+      <div className="bg-white rounded-[40px] p-0 border border-slate-100 shadow-sm">
         {/* 3. Render the Client Switcher here */}
         <ToolRenderer slug={slug} toolName={tool.name} />
       </div>

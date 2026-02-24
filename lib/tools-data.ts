@@ -665,4 +665,18 @@ export const TOOLS_CONFIG: Record<string, ToolConfig> = {
     apiStatus: "stable",
     isPremium: false,
   },
+  "html-to-pdf": {
+    title: "HTML to PDF Converter | Convert Web Pages to High-Quality PDF",
+    description:
+      "Convert HTML files or web URLs into professional PDF documents instantly. Supports CSS3, JavaScript, and custom fonts with pixel-perfect accuracy.",
+    h1: "HTML to PDF: Web Engineering Studio",
+    keywords:
+      "html to pdf, convert webpage to pdf, save website as pdf, html to pdf converter online, css to pdf, developer tools",
+    schemaType: "SoftwareApplication",
+    category: "PDF",
+    name: "Web-to-PDF Studio",
+    apiEndpoint: "/api/v1/pdf/html-to-pdf",
+    apiStatus: "stable",
+    isPremium: false,
+  },
 };

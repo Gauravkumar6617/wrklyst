@@ -34,25 +34,42 @@ export default function DownloadPage({
   useEffect(() => {
     if (isLocal) {
       const savedData = sessionStorage.getItem("current_download");
+      console.log("📥 Download Page: Checking session storage...");
+
       if (savedData) {
         try {
-          const { url } = JSON.parse(savedData);
-          setLocalDownloadUrl(url);
+          const parsed = JSON.parse(savedData);
+          console.log("✅ Download Page: Data parsed successfully");
+
+          // We check for 'data' because that's what the converter sends
+          if (parsed.data) {
+            setLocalDownloadUrl(parsed.data);
+            console.log("🔗 Download Page: URL set from Base64 data");
+          } else {
+            console.error(
+              "❌ Download Page: No 'data' field found in parsed object",
+            );
+            setError(true);
+          }
         } catch (e) {
+          console.error("❌ Download Page: JSON Parse Error", e);
           setError(true);
         }
       } else {
+        console.error(
+          "❌ Download Page: No 'current_download' found in sessionStorage",
+        );
         setError(true);
       }
     }
   }, [isLocal]);
-
   // Determine final href
   // If local: use the Blob URL from state. If server: use the API route.
   const finalDownloadHref = isLocal
     ? localDownloadUrl
-    : `/api/files/retrieve/${fileId}`;
-
+    : toolName === "HTML to PDF"
+      ? `/api/pdf/retrieve/${fileId}` // Or whatever your GET route is
+      : `/api/files/retrieve/${fileId}`;
   return (
     <div className="max-w-6xl mx-auto pt-28 pb-10 px-4 min-h-screen">
       <div className="flex flex-col items-center mb-10">

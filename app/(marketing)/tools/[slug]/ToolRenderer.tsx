@@ -36,6 +36,7 @@ import QrGenerator from "@/app/components/Tools/Utilities/QrGenerator/QrGenerato
 import LineSorter from "@/app/components/Tools/WritingTool/LineSorter/LineSorter";
 import WishFlowPage from "@/app/components/Tools/wishflow/wishflow";
 import RotatePdf from "@/app/components/Tools/Pdf/RotatePdf/RotatePdf";
+import { HTMLToPDFClient } from "@/app/components/Tools/Pdf/HtmlPdf/HtmlPdf";
 // import PdfEdit from "@/app/components/Tools/Pdf/PdfEdit/PdfEdit";
 
 // Dynamically import the PDF tool with SSR disabled
@@ -236,6 +237,7 @@ const TOOL_COMPONENTS: Record<string, React.ComponentType<any>> = {
   "split-pdf": PdfSplit,
   "compress-pdf": PdfCompress,
   "pdf-to-pdfa": PdfToPdfA,
+  "html-to-pdf": HTMLToPDFClient,
 
   "rotate-pdf": RotatePdf,
   // "pdf-edits": PdfEdit,
