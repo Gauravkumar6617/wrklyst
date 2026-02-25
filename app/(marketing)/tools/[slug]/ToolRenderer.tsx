@@ -37,11 +37,13 @@ import LineSorter from "@/app/components/Tools/WritingTool/LineSorter/LineSorter
 import WishFlowPage from "@/app/components/Tools/wishflow/wishflow";
 import RotatePdf from "@/app/components/Tools/Pdf/RotatePdf/RotatePdf";
 import { HTMLToPDFClient } from "@/app/components/Tools/Pdf/HtmlPdf/HtmlPdf";
-import {BMIClient} from "@/app/components/Tools/Utilities/BmiCalculator/BmiClient"
+import { BMIClient } from "@/app/components/Tools/Utilities/BmiCalculator/BmiClient";
 import { UnitConverter } from "@/app/components/Tools/Utilities/UnitConverter/UnitConverter";
 import { PercentageClient } from "@/app/components/Tools/Utilities/PercentageCalucator/PercentageClient";
 import { GSTClient } from "@/app/components/Tools/Utilities/GstCalculator/GSTClient";
 import { WatermarkClient } from "@/app/components/Tools/Pdf/PdfWatermark/WatermarkClient";
+import { RepairPDFClient } from "@/app/components/Tools/Pdf/RepairPdf/RepairPdf";
+import { SignPDFClient } from "@/app/components/Tools/Pdf/SignPDFClient/SignPDFClient";
 // import PdfEdit from "@/app/components/Tools/Pdf/PdfEdit/PdfEdit";
 
 // Dynamically import the PDF tool with SSR disabled
@@ -243,9 +245,10 @@ const TOOL_COMPONENTS: Record<string, React.ComponentType<any>> = {
   "compress-pdf": PdfCompress,
   "pdf-to-pdfa": PdfToPdfA,
   "html-to-pdf": HTMLToPDFClient,
-  "pdf-watermark":WatermarkClient,
-
+  "pdf-watermark": WatermarkClient,
+  "repair-pdf": RepairPDFClient,
   "rotate-pdf": RotatePdf,
+  "sign-pdf": SignPDFClient,
   // "pdf-edits": PdfEdit,
   ////utility///
   "age-calculator": AgeCalculator,
@@ -253,11 +256,10 @@ const TOOL_COMPONENTS: Record<string, React.ComponentType<any>> = {
   "ip-checker": IpChecker,
   "speed-test": SpeedTest,
   "qr-generator": QrGenerator,
-  "bmi-calculator":BMIClient,
-  "unit-converter":UnitConverter,
-"percentage-calculator":PercentageClient,
-"gst-calculator":GSTClient,
-
+  "bmi-calculator": BMIClient,
+  "unit-converter": UnitConverter,
+  "percentage-calculator": PercentageClient,
+  "gst-calculator": GSTClient,
 
   "wish-flow": WishFlowPage,
 };

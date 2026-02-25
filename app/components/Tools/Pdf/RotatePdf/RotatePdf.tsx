@@ -102,26 +102,34 @@ export default function RotatePdf() {
         (p) => ((p.rotation ?? 0) + globalRotation) % 360,
       );
       const pdfBytes = await rotatePDF(file, rotations);
-      const blob = uint8ArrayToBlob(pdfBytes);
+
+      // 1. Convert Uint8Array to Base64 (Standardized Protocol)
+      let binary = "";
+      const len = pdfBytes.byteLength;
+      for (let i = 0; i < len; i++) {
+        binary += String.fromCharCode(pdfBytes[i]);
+      }
+      const base64Data = window.btoa(binary);
+
+      // 2. Create the Universal Payload
+      const payload = {
+        data: base64Data,
+        name: `rotated_${file.name.replace(".pdf", "")}.pdf`,
+        mime: "application/pdf",
+      };
+
+      // 3. Clear and Set the Universal Key
+      sessionStorage.removeItem("wrklyst_pending_file");
+      sessionStorage.setItem("wrklyst_pending_file", JSON.stringify(payload));
 
       confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
 
-      const downloadUrl = URL.createObjectURL(blob);
-      sessionStorage.setItem(
-        "current_download",
-        JSON.stringify({
-          url: downloadUrl,
-          name: `rotated_${file.name}`,
-          tool: "Rotate PDF",
-        }),
-      );
-
+      // 4. Redirect with the tool slug
       setTimeout(() => {
-        router.push(
-          `/download/local-rotate?name=${encodeURIComponent(file.name)}&tool=Rotate PDF&local=true`,
-        );
+        router.push(`/download/repair-result?tool=Rotate PDF&local=true`);
       }, 1500);
     } catch (error) {
+      console.error(error);
       toast.error("Process failed");
       setStatus("ready");
     }
