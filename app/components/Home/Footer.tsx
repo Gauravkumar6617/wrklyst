@@ -34,7 +34,7 @@ export default function Footer() {
             <p className="text-slate-500 text-sm leading-relaxed max-w-[280px]">
               The all-in-one toolkit for file management. Process PDFs, images, and videos securely in your browser.
             </p>
-            <div className="flex gap-4 text-slate-300">
+            <div className="flex gap-4 text-slate-500">
               <Twitter size={20} className="hover:text-[#5D5FEF] transition-colors cursor-pointer" />
               <Github size={20} className="hover:text-[#5D5FEF] transition-colors cursor-pointer" />
               <Linkedin size={20} className="hover:text-[#5D5FEF] transition-colors cursor-pointer" />
@@ -43,7 +43,7 @@ export default function Footer() {
 
           {/* 2. Product Column */}
           <div>
-            <h4 className="font-bold text-[#1A1A1A] mb-6 uppercase text-[11px] tracking-widest">Product</h4>
+            <h2 className="font-bold text-[#1A1A1A] mb-6 uppercase text-[11px] tracking-widest">Product</h2>
             <ul className="space-y-4 text-sm text-slate-500 font-medium">
               <li><Link href="/tools" className="hover:text-[#5D5FEF] transition-colors">All Tools</Link></li>
               <li><Link href="/how-it-works" className="hover:text-[#5D5FEF] transition-colors">How it Works</Link></li>
@@ -53,7 +53,7 @@ export default function Footer() {
 
           {/* 3. Company & Support */}
           <div>
-            <h4 className="font-bold text-[#1A1A1A] mb-6 uppercase text-[11px] tracking-widest">Company</h4>
+            <h2 className="font-bold text-[#1A1A1A] mb-6 uppercase text-[11px] tracking-widest">Company</h2>
             <ul className="space-y-4 text-sm text-slate-500 font-medium">
               <li><Link href="/about" className="hover:text-[#5D5FEF] transition-colors">About Story</Link></li>
               <li><Link href="/contact" className="hover:text-[#5D5FEF] transition-colors">Contact Support</Link></li>
@@ -63,7 +63,7 @@ export default function Footer() {
 
           {/* 4. Newsletter Column (Updated) */}
           <div className="lg:col-span-1">
-            <h4 className="font-bold text-[#1A1A1A] mb-6 uppercase text-[11px] tracking-widest">Stay Updated</h4>
+            <h2 className="font-bold text-[#1A1A1A] mb-6 uppercase text-[11px] tracking-widest">Stay Updated</h2>
             
             {/* 2. Toggle UI based on isSubscribed */}
             {isSubscribed ? (

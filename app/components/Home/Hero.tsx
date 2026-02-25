@@ -114,9 +114,9 @@ export default function Hero() {
                     </div>
                   </div>
 
-                  <h3 className="text-xl md:text-2xl font-black text-white mb-2 md:mb-3 tracking-tight">
+                  <h2 className="text-xl md:text-2xl font-black text-white mb-2 md:mb-3 tracking-tight">
                     Smart-Core v4.0
-                  </h3>
+                  </h2>
                   <p className="text-indigo-200/50 text-[9px] md:text-xs font-bold uppercase tracking-widest leading-none">
                     In-Browser Processing Engine
                   </p>

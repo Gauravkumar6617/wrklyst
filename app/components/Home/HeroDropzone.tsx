@@ -96,14 +96,16 @@ export default function HeroDropzone() {
                   </p>
                 </div>
                 <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setFile(null);
-                  }}
-                  className="hover:text-red-500 text-slate-300 transition-colors"
-                >
-                  <X size={20} />
-                </button>
+  type="button"
+  onClick={(e) => {
+    e.stopPropagation();
+    setFile(null);
+  }}
+  aria-label="Remove file" // Added this
+  className="hover:text-red-500 text-slate-500 transition-colors"
+>
+  <X size={20} />
+</button>
               </div>
             </motion.div>
           )}

@@ -679,4 +679,60 @@ export const TOOLS_CONFIG: Record<string, ToolConfig> = {
     apiStatus: "stable",
     isPremium: false,
   },
+  "bmi-calculator": {
+    "title": "BMI Calculator | Free Body Mass Index Health Tool - Wrklyst",
+    "description": "Calculate your Body Mass Index (BMI) instantly. Our free tool provides accurate health classifications based on WHO standards. Private, fast, and mobile-responsive.",
+    "h1": "BMI Calculator: Health Metric Studio",
+    "keywords": "bmi calculator, body mass index, health calculator, weight category tool, bmi for adults, fitness metrics, health studio",
+    "schemaType": "SoftwareApplication",
+    "category": "Utilities",
+    "name": "Health-Metric Studio",
+    "apiEndpoint": "/api/v1/health/bmi",
+    "apiStatus": "stable",
+    "isPremium": false
+},
+"unit-converter": {
+    "title": "Universal Unit Converter | Length, Weight & Temp - Wrklyst",
+    "description": "Convert feet to cm, lbs to kg, and Celsius to Fahrenheit instantly. A precise, mobile-friendly measurement tool for students and professionals.",
+    "h1": "Unit Converter: Measurement Studio",
+    "keywords": "feet to cm, unit converter, convert length, weight converter, temperature converter, measurement tools, cm to inches",
+    "schemaType": "SoftwareApplication",
+    "category": "Utilities",
+    "name": "Measurement-Metric Studio",
+    "apiStatus": "stable",
+    "isPremium": false
+},
+"percentage-calculator": {
+    "title": "Percentage Calculator | Growth & Proportion Studio - Wrklyst",
+    "description": "Calculate percentage increases, decreases, and basic proportions instantly. Perfect for financial growth, discounts, and data analysis.",
+    "h1": "Percentage Studio: Numerical Growth",
+    "keywords": "percentage calculator, percent increase, percentage change formula, what is x percent of y, growth calculator, proportion tool",
+    "schemaType": "SoftwareApplication",
+    "category": "Utilities",
+    "name": "Percentage-Numerical Studio",
+    "apiStatus": "stable",
+    "isPremium": false
+},
+"gst-calculator": {
+    "title": "GST Calculator | GST Inclusive & Exclusive Tax Studio - Wrklyst",
+    "description": "Calculate Indian GST (5%, 12%, 18%, 28%) for both inclusive and exclusive amounts. Get instant tax breakdowns for businesses and shopping.",
+    "h1": "GST Tax Studio: Financial Precision",
+    "keywords": "gst calculator, indian gst tool, gst inclusive vs exclusive, calculate tax online, 18% gst calculator, gst billing tool, wrklyst gst",
+    "schemaType": "SoftwareApplication",
+    "category": "Utilities",
+    "name": "GST-Tax Studio",
+    "apiStatus": "stable",
+    "isPremium": false
+},
+"pdf-watermark": {
+    "title": "Watermark PDF Online | Professional Stamp & Security Studio - Wrklyst",
+    "description": "Protect your documents with custom watermarks. Add 'CONFIDENTIAL', 'DRAFT', or custom text to PDFs instantly in your browser. 100% private, no file uploads.",
+    "h1": "Watermark Studio: Document Security",
+    "keywords": "watermark pdf online, add confidential stamp to pdf, draft watermark pdf, secure pdf watermarking, free pdf stamp tool, wrklyst watermark studio",
+    "schemaType": "SoftwareApplication",
+    "category": "PDF",
+    "name": "Watermark-Security Studio",
+    "apiStatus": "stable",
+    "isPremium": false
+}
 };
