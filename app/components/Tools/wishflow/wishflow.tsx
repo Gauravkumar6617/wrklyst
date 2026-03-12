@@ -14,9 +14,6 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-// Replace this with your actual API dispatch logic
-import { dispatchWish } from "@/app/api/wishflow/route";
-
 export default function WishFlowPage() {
   const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
   const [agreed, setAgreed] = useState(false);
@@ -29,13 +26,19 @@ export default function WishFlowPage() {
     const formData = new FormData(e.currentTarget);
 
     try {
-      //   Logic for your backend relay
-      await dispatchWish({
-        email: formData.get("email") as string,
-        event_title: formData.get("title") as string,
-        message: formData.get("message") as string,
-        send_datetime: formData.get("datetime") as string,
+      // Send to our API route
+      const response = await fetch("/api/wishflow", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: formData.get("email") as string,
+          event_title: formData.get("title") as string,
+          message: formData.get("message") as string,
+          send_datetime: formData.get("datetime") as string,
+        }),
       });
+
+      if (!response.ok) throw new Error("Failed to send wish");
 
       // Simulating network latency for UX feel
       setTimeout(() => {

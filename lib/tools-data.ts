@@ -772,4 +772,144 @@ export const TOOLS_CONFIG: Record<string, ToolConfig> = {
     apiStatus: "stable",
     isPremium: false,
   },
+  "edit-metadata": {
+    title: "Edit PDF Metadata Online | Change PDF Properties - Wrklyst",
+    description:
+      "View and edit PDF metadata online for free. Modify PDF Title, Author, Subject, and Keywords instantly. Professional browser-side processing ensures your data stays private.",
+    h1: "Metadata Studio: Professional Property Editor",
+    keywords:
+      "edit pdf metadata, change pdf author, modify pdf title online, remove pdf producer, pdf seo tags, edit pdf properties, wrklyst metadata studio",
+    schemaType: "SoftwareApplication",
+    category: "PDF",
+    name: "Metadata-Property Studio",
+    apiStatus: "stable",
+    isPremium: false,
+  },
+  "edit-pdf": {
+    title:
+      "PDF Architect | Professional Online PDF Editor & Annotator | Wrklyst",
+    description:
+      "Edit PDF text, add layers, and annotate documents with precision. Our PDF Architect tool provides high-fidelity document engineering without the need for expensive software. Secure, private, and fast.",
+    h1: "Professional PDF Architect",
+    keywords:
+      "pdf editor online, edit pdf text, pdf architect, annotate pdf, add text to pdf, free pdf editor, professional document engineering, wrklyst pdf tools",
+    schemaType: "WebApplication",
+    name: "PDF Architect",
+    category: "PDF",
+    apiEndpoint: "/api/v1/pdf/process",
+    apiStatus: "stable",
+    isPremium: false,
+  },
+  "word-to-pdf": {
+    title: "Word to PDF Converter | Convert DOCX to PDF Online | Wrklyst",
+    description:
+      "Convert Word documents (DOC/DOCX) to PDF format instantly. Preserve formatting, fonts, layouts, and images. Free, secure, and works entirely in your browser.",
+    h1: "Word to PDF Converter",
+    keywords:
+      "word to pdf, convert docx to pdf, doc to pdf, word document to pdf, free pdf converter, docx to pdf online, microsoft word to pdf",
+    schemaType: "WebApplication",
+    name: "Word to PDF",
+    category: "PDF",
+    apiEndpoint: "/api/v1/pdf/word-to-pdf",
+    apiStatus: "stable",
+    isPremium: false,
+  },
+  "powerpoint-to-pdf": {
+    title: "PowerPoint to PDF Converter | Convert PPTX to PDF Online | Wrklyst",
+    description:
+      "Convert PowerPoint presentations (PPT/PPTX) to PDF format instantly. Preserve slides, layouts, images, and animations. Free, secure, and works entirely in your browser.",
+    h1: "PowerPoint to PDF Converter",
+    keywords:
+      "powerpoint to pdf, convert pptx to pdf, ppt to pdf, powerpoint presentation to pdf, free pdf converter, pptx to pdf online, microsoft powerpoint to pdf",
+    schemaType: "WebApplication",
+    name: "PowerPoint to PDF",
+    category: "PDF",
+    apiEndpoint: "/api/v1/pdf/powerpoint-to-pdf",
+    apiStatus: "stable",
+    isPremium: false,
+  },
+  "text-to-pdf": {
+    title: "Text to PDF Converter | Convert TXT to PDF Online | Wrklyst",
+    description:
+      "Convert plain text files (TXT) to professional PDF format instantly. Preserve formatting and layout. Free, secure, and works entirely in your browser.",
+    h1: "Text to PDF Converter",
+    keywords:
+      "text to pdf, convert txt to pdf, text file to pdf, free pdf converter, txt to pdf online, text document converter, plain text to pdf",
+    schemaType: "WebApplication",
+    name: "Text to PDF",
+    category: "PDF",
+    apiEndpoint: "/api/v1/pdf/text-to-pdf",
+    apiStatus: "stable",
+    isPremium: false,
+  },
+  "epub-to-pdf": {
+    title: "EPUB to PDF Converter | Convert eBook to PDF Online | Wrklyst",
+    description:
+      "Convert EPUB eBooks to PDF format instantly. Preserve formatting, chapters, and layout. Free, secure, and works entirely in your browser.",
+    h1: "EPUB to PDF Converter",
+    keywords:
+      "epub to pdf, convert epub to pdf, ebook to pdf, epub converter, free pdf converter, epub to pdf online, electronic book to pdf",
+    schemaType: "WebApplication",
+    name: "EPUB to PDF",
+    category: "PDF",
+    apiEndpoint: "/api/v1/pdf/epub-to-pdf",
+    apiStatus: "stable",
+    isPremium: false,
+  },
+  "delete-pdf-pages": {
+    title: "Delete PDF Pages Online | Remove Pages from PDF | Wrklyst",
+    description:
+      "Remove specific pages from PDF documents instantly. Select and delete unwanted pages while preserving the rest. Free, secure, and works entirely in your browser.",
+    h1: "Delete PDF Pages",
+    keywords:
+      "delete pdf pages, remove pages from pdf, extract pages from pdf, pdf page remover, delete pdf pages online, remove pdf pages free, pdf editor online",
+    schemaType: "WebApplication",
+    name: "Delete PDF Pages",
+    category: "PDF",
+    apiEndpoint: "/api/v1/pdf/delete-pages",
+    apiStatus: "stable",
+    isPremium: false,
+  },
+  "duplicate-pdf-pages": {
+    title: "Duplicate PDF Pages Online | Copy Pages in PDF | Wrklyst",
+    description:
+      "Duplicate specific pages within PDF documents instantly. Copy and insert pages at any position. Free, secure, and works entirely in your browser.",
+    h1: "Duplicate PDF Pages",
+    keywords:
+      "duplicate pdf pages, copy pdf pages, insert pdf pages, pdf page duplicator, duplicate pages in pdf online, copy pdf pages free, pdf editor online",
+    schemaType: "WebApplication",
+    name: "Duplicate PDF Pages",
+    category: "PDF",
+    apiEndpoint: "/api/v1/pdf/duplicate-pages",
+    apiStatus: "stable",
+    isPremium: false,
+  },
+  "excel-to-pdf": {
+    title: "Excel to PDF Converter | Convert XLSX to PDF Online | Wrklyst",
+    description:
+      "Convert Excel spreadsheets (XLS/XLSX) to PDF format instantly. Preserve tables, charts, and formatting. Free, secure, and works entirely in your browser.",
+    h1: "Excel to PDF Converter",
+    keywords:
+      "excel to pdf, convert xlsx to pdf, xls to pdf, excel spreadsheet to pdf, free pdf converter, xlsx to pdf online, microsoft excel to pdf",
+    schemaType: "WebApplication",
+    name: "Excel to PDF",
+    category: "PDF",
+    apiEndpoint: "/api/v1/pdf/excel-to-pdf",
+    apiStatus: "stable",
+    isPremium: false,
+  },
+  "pdf-to-text": {
+    title: "PDF to Text Converter | Extract Text from PDF Online | Wrklyst",
+    description:
+      "Extract plain text from PDF documents instantly. Perfect for copying content, indexing, or editing. Free, secure, and works entirely in your browser.",
+    h1: "PDF to Text Converter",
+    keywords:
+      "pdf to text, extract text from pdf, convert pdf to txt, pdf text extractor, free pdf converter, pdf to plain text online",
+    schemaType: "WebApplication",
+    name: "PDF to Text",
+    category: "PDF",
+    apiEndpoint: "/api/v1/pdf/pdf-to-text",
+    apiStatus: "stable",
+    isPremium: false,
+  },
 };

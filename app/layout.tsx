@@ -72,10 +72,22 @@ import { HistoryProvider } from "@/app/context/HistoryContext";
 
 // ... (metadata and viewport exports stay the same)
 export const metadata: Metadata = {
-  title: "Wrklyst | Empowering Workflows",
+  title: "Wrklyst | Free Online PDF & Text Tools | Professional Utilities",
   description:
-    "A comprehensive suite of online utility tools designed to simplify and optimize professional workflows.",
+    "Wrklyst offers 50+ free online tools for PDF conversion, text processing, and file management. Convert Word to PDF, merge PDFs, extract tables, and more—all in your browser, 100% private & secure.",
+  keywords:
+    "pdf tools, pdf converter, online tools, text tools, free utilities, document converter, pdf merger, pdf splitter",
   metadataBase: new URL("https://wrklyst.com"),
+  alternates: {
+    canonical: "https://wrklyst.com",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    "max-snippet": -1,
+    "max-image-preview": "large",
+    "max-video-preview": -1,
+  },
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",
@@ -83,10 +95,32 @@ export const metadata: Metadata = {
   },
   manifest: "/site.webmanifest",
   openGraph: {
-    title: "Wrklyst | Professional Utility Tools",
-    description: "Optimize your tasks with high-performance web utilities.",
-    images: ["/og-image.png"],
+    title: "Wrklyst | 50+ Free Professional Online Tools",
+    description:
+      "Convert PDFs, merge documents, extract data, and process files instantly. 100% private, browser-based, no sign-up required.",
+    url: "https://wrklyst.com",
+    siteName: "Wrklyst",
+    images: [
+      {
+        url: "https://wrklyst.com/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Wrklyst - Professional Online Utilities",
+      },
+    ],
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Wrklyst | Free Professional Online Tools",
+    description:
+      "50+ tools for PDF conversion, document processing, and file utilities.",
+    images: ["https://wrklyst.com/og-image.png"],
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Wrklyst",
   },
 };
 export default function RootLayout({

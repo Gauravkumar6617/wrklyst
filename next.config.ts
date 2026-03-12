@@ -4,6 +4,53 @@ const nextConfig: NextConfig = {
   reactStrictMode: false,
   poweredByHeader: false,
   compress: true,
+  // SEO Optimization
+  generateEtags: true,
+  productionBrowserSourceMaps: false,
+
+  headers: async () => {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          {
+            key: "X-DNS-Prefetch-Control",
+            value: "on",
+          },
+          {
+            key: "X-Frame-Options",
+            value: "SAMEORIGIN",
+          },
+          {
+            key: "X-Content-Type-Options",
+            value: "nosniff",
+          },
+          {
+            key: "X-XSS-Protection",
+            value: "1; mode=block",
+          },
+          {
+            key: "Referrer-Policy",
+            value: "strict-origin-when-cross-origin",
+          },
+          {
+            key: "Cache-Control",
+            value: "public, max-age=3600, stale-while-revalidate=86400",
+          },
+        ],
+      },
+      // Cache static assets for 1 year
+      {
+        source: "/static/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+    ];
+  },
 
   images: {
     // Standard Remote Patterns for Next.js 16

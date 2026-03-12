@@ -124,9 +124,13 @@ export default function RotatePdf() {
 
       confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
 
-      // 4. Redirect with the tool slug
+      // 4. Redirect with the tool slug (include original filename)
       setTimeout(() => {
-        router.push(`/download/repair-result?tool=Rotate PDF&local=true`);
+        router.push(
+          `/download/repair-result?tool=Rotate PDF&local=true&name=${encodeURIComponent(
+            payload.name,
+          )}`,
+        );
       }, 1500);
     } catch (error) {
       console.error(error);
@@ -294,17 +298,19 @@ export default function RotatePdf() {
                         />
                       </motion.div>
 
-                      {/* ULTRA-COMPACT MOBILE CONTROLS */}
-                      <div className="absolute inset-x-0 top-0 p-1 flex justify-between md:hidden">
+                      {/* INDIVIDUAL PAGE CONTROLS - VISIBLE ON ALL SCREENS */}
+                      <div className="absolute inset-x-0 top-0 p-1 flex justify-between">
                         <button
                           onClick={() => handleRotateIndividual(idx, "ccw")}
-                          className="w-8 h-8 bg-white/90 backdrop-blur-md rounded-lg flex items-center justify-center shadow-sm border border-slate-200 text-slate-700 active:bg-indigo-600 active:text-white"
+                          className="w-8 h-8 bg-white/90 backdrop-blur-md rounded-lg flex items-center justify-center shadow-sm border border-slate-200 text-slate-700 hover:bg-indigo-50 active:bg-indigo-600 active:text-white transition-colors"
+                          title="Rotate counter-clockwise"
                         >
                           <RotateCcw size={14} />
                         </button>
                         <button
                           onClick={() => handleRotateIndividual(idx, "cw")}
-                          className="w-8 h-8 bg-white/90 backdrop-blur-md rounded-lg flex items-center justify-center shadow-sm border border-slate-200 text-slate-700 active:bg-indigo-600 active:text-white"
+                          className="w-8 h-8 bg-white/90 backdrop-blur-md rounded-lg flex items-center justify-center shadow-sm border border-slate-200 text-slate-700 hover:bg-indigo-50 active:bg-indigo-600 active:text-white transition-colors"
+                          title="Rotate clockwise"
                         >
                           <RotateCw size={14} />
                         </button>

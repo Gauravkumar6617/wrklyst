@@ -27,13 +27,22 @@ export default function DownloadPage({
   const isLocal =
     searchParams.get("local") === "true" || fileId.startsWith("local-");
 
+  // state used when we detect an explicit name inside session storage
+  const [displayName, setDisplayName] = useState<string>(fileName);
+
   // State for local blob management
   const [localDownloadUrl, setLocalDownloadUrl] = useState<string | null>(null);
   const [error, setError] = useState(false);
 
   useEffect(() => {
     if (isLocal) {
-      const savedData = sessionStorage.getItem("current_download");
+      const toolSlug = toolName.toLowerCase();
+      const specificKey = `download_${toolSlug}`;
+      // check all known storage slots (legacy and universal)
+      const savedData =
+        sessionStorage.getItem(specificKey) ||
+        sessionStorage.getItem("current_download") ||
+        sessionStorage.getItem("wrklyst_pending_file");
       console.log("📥 Download Page: Checking session storage...");
 
       if (savedData) {
@@ -41,13 +50,42 @@ export default function DownloadPage({
           const parsed = JSON.parse(savedData);
           console.log("✅ Download Page: Data parsed successfully");
 
-          // We check for 'data' because that's what the converter sends
-          if (parsed.data) {
-            setLocalDownloadUrl(parsed.data);
-            console.log("🔗 Download Page: URL set from Base64 data");
+          // Pull a friendly name if the payload contains one
+          if (parsed.name) {
+            setDisplayName(parsed.name);
+          }
+
+          // We check for 'data' (base64) or 'url' (blob) because different tools
+          // write different formats. Convert base64 to a blob URL if necessary.
+          let downloadUrl: string | undefined = parsed.url;
+          if (!downloadUrl && parsed.data) {
+            try {
+              const b64 = parsed.data as string;
+              const comma = b64.indexOf(",");
+              const raw = comma >= 0 ? b64.slice(comma + 1) : b64;
+              const byteString = atob(raw);
+              const mime = parsed.mime || "application/octet-stream";
+              const ab = new ArrayBuffer(byteString.length);
+              const ia = new Uint8Array(ab);
+              for (let i = 0; i < byteString.length; i++) {
+                ia[i] = byteString.charCodeAt(i);
+              }
+              const blob = new Blob([ab], { type: mime });
+              downloadUrl = URL.createObjectURL(blob);
+            } catch (e) {
+              console.error(
+                "❌ Download Page: could not convert base64 to blob",
+                e,
+              );
+            }
+          }
+
+          if (downloadUrl) {
+            setLocalDownloadUrl(downloadUrl);
+            console.log("🔗 Download Page: URL set from data/url");
           } else {
             console.error(
-              "❌ Download Page: No 'data' field found in parsed object",
+              "❌ Download Page: No 'data' or 'url' field found in parsed object",
             );
             setError(true);
           }
@@ -57,12 +95,12 @@ export default function DownloadPage({
         }
       } else {
         console.error(
-          "❌ Download Page: No 'current_download' found in sessionStorage",
+          "❌ Download Page: No 'current_download' or tool-specific key found in sessionStorage",
         );
         setError(true);
       }
     }
-  }, [isLocal]);
+  }, [isLocal, toolName]);
   // Determine final href
   // If local: use the Blob URL from state. If server: use the API route.
   const finalDownloadHref = isLocal
@@ -113,7 +151,14 @@ export default function DownloadPage({
             ) : (
               <a
                 href={finalDownloadHref || "#"}
-                download={fileName}
+                download={displayName}
+                onClick={() => {
+                  const toolSlug = toolName.toLowerCase();
+                  const specificKey = `download_${toolSlug}`;
+                  sessionStorage.removeItem(specificKey);
+                  sessionStorage.removeItem("current_download");
+                  sessionStorage.removeItem("wrklyst_pending_file");
+                }}
                 className={`group flex items-center justify-center gap-3 bg-blue-600 hover:bg-blue-700 text-white w-full max-w-md py-5 rounded-2xl font-bold text-xl shadow-lg shadow-blue-100 transition-all active:scale-95 ${!finalDownloadHref ? "opacity-50 pointer-events-none" : ""}`}
               >
                 <Download size={24} className="group-hover:animate-bounce" />

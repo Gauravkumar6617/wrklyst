@@ -139,10 +139,8 @@ export function ToolHeader({ icon, title, description }: ToolHeaderProps) {
 
 // Card wrapper with glow effect
 export interface ToolCardProps {
-  // Change 'children: React.ReactNode' to:
   children?: React.ReactNode;
   className?: string;
-  onClick?: () => void;
 }
 
 export function ToolCard({ children, className = "" }: ToolCardProps) {

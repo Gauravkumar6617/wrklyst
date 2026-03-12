@@ -10,7 +10,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { FileUploader } from "../pdf/FileUploader";
-import { downloadFile } from "@/lib/pdf-utils";
+import { downloadFile } from "@/app/lib/pdf-utils";
 import {
   AnimatedBackground,
   FloatingDecorations,
@@ -18,7 +18,7 @@ import {
   ToolCard,
   ProcessingState,
 } from "../ui/ToolPageElements";
-import { useHistory } from "@/context/HistoryContext";
+import { useHistory } from "@/app/context/HistoryContext";
 
 interface ToolPageLayoutProps {
   title: string;
@@ -132,7 +132,7 @@ export function ToolPageLayout({
     } catch (error) {
       console.error(error);
       setErrorMessage(
-        error instanceof Error ? error.message : "An error occurred"
+        error instanceof Error ? error.message : "An error occurred",
       );
       setStatus("error");
     }

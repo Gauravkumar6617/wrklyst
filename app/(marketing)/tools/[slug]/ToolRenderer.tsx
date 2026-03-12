@@ -44,8 +44,16 @@ import { GSTClient } from "@/app/components/Tools/Utilities/GstCalculator/GSTCli
 import { WatermarkClient } from "@/app/components/Tools/Pdf/PdfWatermark/WatermarkClient";
 import { RepairPDFClient } from "@/app/components/Tools/Pdf/RepairPdf/RepairPdf";
 import { SignPDFClient } from "@/app/components/Tools/Pdf/SignPDFClient/SignPDFClient";
-// import PdfEdit from "@/app/components/Tools/Pdf/PdfEdit/PdfEdit";
-
+import { EditMetadataClient } from "@/app/components/Tools/Pdf/EditMetaData/EditMetaData";
+import { EditPDFClient } from "@/app/components/Tools/Pdf/edit-pdf/EditPDFClient";
+import { WordToPDF } from "@/app/components/Tools/Pdf/WordToPdf/WordToPdf";
+import { PPTToPDFClient } from "@/app/components/Tools/Pdf/PowerPointToPdf/PowerPointToPdf";
+import { TextToPDFClient } from "@/app/components/Tools/Pdf/TextToPdf/TextToPdf";
+import { EPUBToPDFClient } from "@/app/components/Tools/Pdf/EpubToPdf/EpubToPdf";
+import { DeletePagesClient } from "@/app/components/Tools/Pdf/DeletePages/DeletePages";
+import { DuplicatePagesClient } from "@/app/components/Tools/Pdf/DuplicatePage/DuplicatePdf";
+import { ExcelToPDFClient } from "@/app/components/Tools/Pdf/ExeclToPdf/ExeclToPdf";
+import { PDFToTextClient } from "@/app/components/Tools/PdfToText/PdfToText";
 // Dynamically import the PDF tool with SSR disabled
 const ProtectPdf = dynamic(
   () => import("@/app/components/Tools/Pdf/ProtectPdf/ProtectPdf"),
@@ -59,7 +67,10 @@ const ProtectPdf = dynamic(
   },
 );
 const PdfToWord = dynamic(
-  () => import("@/app/components/Tools/Pdf/PdfToWord/PdfToWord"),
+  () =>
+    import("@/app/components/Tools/Pdf/PdfToWord/PdfToWord").then(
+      (mod) => mod.PdfToWord,
+    ),
   { ssr: false },
 );
 const PdfToPpt = dynamic(
@@ -246,9 +257,19 @@ const TOOL_COMPONENTS: Record<string, React.ComponentType<any>> = {
   "pdf-to-pdfa": PdfToPdfA,
   "html-to-pdf": HTMLToPDFClient,
   "pdf-watermark": WatermarkClient,
+  "edit-metadata": EditMetadataClient,
   "repair-pdf": RepairPDFClient,
   "rotate-pdf": RotatePdf,
   "sign-pdf": SignPDFClient,
+  "edit-pdf": EditPDFClient,
+  "word-to-pdf": WordToPDF,
+  "powerpoint-to-pdf": PPTToPDFClient,
+  "text-to-pdf": TextToPDFClient,
+  "epub-to-pdf": EPUBToPDFClient,
+  "delete-pdf-pages": DeletePagesClient,
+  "duplicate-pdf-pages": DuplicatePagesClient,
+  "excel-to-pdf": ExcelToPDFClient,
+  "pdf-to-text": PDFToTextClient,
   // "pdf-edits": PdfEdit,
   ////utility///
   "age-calculator": AgeCalculator,

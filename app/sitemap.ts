@@ -1,62 +1,79 @@
 import { MetadataRoute } from "next";
+import { TOOLS_CONFIG } from "@/lib/tools-data";
 
-const BASE_URL = "https://wrklyst.vercel.app";
+const BASE_URL = "https://wrklyst.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const tools = [
-    "pdf/merge",
-    "pdf/compress",
-    "image/resize",
-  ];
-
-  const toolUrls = tools.map((tool) => ({
-    url: `${BASE_URL}/tools/${tool}`,
-    lastModified: new Date(),
-    changeFrequency: "weekly",
-    priority: 0.8,
-  }));
+  // Dynamic tool pages from TOOLS_CONFIG
+  const toolUrls: MetadataRoute.Sitemap = Object.keys(TOOLS_CONFIG).map(
+    (slug) => ({
+      url: `${BASE_URL}/tools/${slug}`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.85,
+    }),
+  );
 
   return [
-    // Home
+    // Home - Highest Priority
     {
       url: `${BASE_URL}/`,
       lastModified: new Date(),
-      changeFrequency: "weekly",
+      changeFrequency: "weekly" as const,
       priority: 1,
     },
 
-    // Core pages
+    // Core Pages - High Priority
     {
-      url: `${BASE_URL}/about`,
+      url: `${BASE_URL}/tools`,
       lastModified: new Date(),
-      changeFrequency: "monthly",
+      changeFrequency: "weekly" as const,
+      priority: 0.95,
+    },
+    {
+      url: `${BASE_URL}/how-it-works`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
       priority: 0.6,
     },
     {
       url: `${BASE_URL}/pricing`,
       lastModified: new Date(),
-      changeFrequency: "monthly",
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    },
+    {
+      url: `${BASE_URL}/about`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
       priority: 0.6,
     },
     {
       url: `${BASE_URL}/contact`,
       lastModified: new Date(),
-      changeFrequency: "monthly",
+      changeFrequency: "monthly" as const,
       priority: 0.5,
     },
     {
-      url: `${BASE_URL}/login`,
+      url: `${BASE_URL}/faq`,
       lastModified: new Date(),
-      changeFrequency: "yearly",
-      priority: 0.3,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
     },
     {
-      url: `${BASE_URL}/signup`,
+      url: `${BASE_URL}/privacy`,
       lastModified: new Date(),
-      changeFrequency: "yearly",
-      priority: 0.3,
+      changeFrequency: "yearly" as const,
+      priority: 0.4,
+    },
+    {
+      url: `${BASE_URL}/security`,
+      lastModified: new Date(),
+      changeFrequency: "yearly" as const,
+      priority: 0.4,
     },
 
-
+    // Dynamic Tools
+    ...toolUrls,
   ];
 }

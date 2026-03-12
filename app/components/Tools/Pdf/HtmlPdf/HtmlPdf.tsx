@@ -111,25 +111,22 @@ export function HTMLToPDFClient() {
         });
       });
 
-      const reader = new FileReader();
-      reader.readAsDataURL(pdfBlob);
-      reader.onloadend = () => {
-        const fileName =
-          file?.name.replace(/\.html?$/i, ".pdf") || "converted_webpage.pdf";
-        sessionStorage.setItem(
-          "current_download",
-          JSON.stringify({ data: reader.result, name: fileName }),
+      const blobUrl = URL.createObjectURL(pdfBlob);
+      const fileName =
+        file?.name.replace(/\.html?$/i, ".pdf") || "converted_webpage.pdf";
+      sessionStorage.setItem(
+        "current_download",
+        JSON.stringify({ url: blobUrl, name: fileName }),
+      );
+      setIsSuccess(true);
+      addToHistory("HTML to PDF", fileName, "Converted");
+      confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+      toast.success("Ready!", { id: toastId });
+      setTimeout(() => {
+        router.push(
+          `/download/local-${Date.now()}?name=${encodeURIComponent(fileName)}&tool=HTML to PDF&local=true`,
         );
-        setIsSuccess(true);
-        addToHistory("HTML to PDF", fileName, "Converted");
-        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-        toast.success("Ready!", { id: toastId });
-        setTimeout(() => {
-          router.push(
-            `/download/local-${Date.now()}?name=${encodeURIComponent(fileName)}&tool=HTML to PDF&local=true`,
-          );
-        }, 1500);
-      };
+      }, 1500);
     } catch (error) {
       setIsConverting(false);
       toast.error("Error generating PDF");

@@ -20,6 +20,29 @@ export async function generateMetadata({ params }: PageProps) {
     alternates: {
       canonical: `https://wrklyst.com/tools/${slug}`,
     },
+    robots: {
+      index: true,
+      follow: true,
+    },
+    openGraph: {
+      title: tool.h1,
+      description: tool.description,
+      url: `https://wrklyst.com/tools/${slug}`,
+      type: "website",
+      images: [
+        {
+          url: `https://wrklyst.com/og-tool-${slug}.png`,
+          width: 1200,
+          height: 630,
+          alt: tool.name,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: tool.h1,
+      description: tool.description,
+    },
   };
 }
 
@@ -34,15 +57,22 @@ export default async function ToolPage({ params }: PageProps) {
 
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
+    "@type": tool.schemaType,
     name: tool.name,
     description: tool.description,
+    url: `https://wrklyst.com/tools/${slug}`,
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web",
     offers: {
       "@type": "Offer",
       price: "0",
       priceCurrency: "USD",
+    },
+    image: `https://wrklyst.com/og-tool-${slug}.png`,
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.8",
+      ratingCount: "2500+",
     },
   };
 

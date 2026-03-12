@@ -365,8 +365,13 @@ export function SignPDFClient() {
       };
 
       // Save to the key your Download Page expects
-      sessionStorage.removeItem("wrklyst_pending_file");
-      sessionStorage.setItem("wrklyst_pending_file", JSON.stringify(payload));
+      sessionStorage.setItem(
+        "current_download",
+        JSON.stringify({
+          data: base64String,
+          name: `signed_${file.name}`,
+        }),
+      );
 
       addToHistory(
         "Signed PDF",
@@ -378,8 +383,11 @@ export function SignPDFClient() {
       confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
 
       // Redirect to the Studio Download Page
+      const fileId = `local-${Date.now()}`;
       setTimeout(() => {
-        router.push(`/download/repair-result?tool=Sign PDF&local=true`);
+        router.push(
+          `/download/${fileId}?tool=Sign PDF&name=${encodeURIComponent(`signed_${file.name}`)}&local=true`,
+        );
       }, 1500);
     } catch (error) {
       console.error(error);
@@ -475,8 +483,12 @@ export function SignPDFClient() {
       sessionStorage.removeItem("wrklyst_pending_file");
       sessionStorage.setItem("wrklyst_pending_file", JSON.stringify(payload));
 
-      // 4. Redirect to the Studio Download Page
-      router.push(`/download/repair-result?tool=Sign PDF&local=true`);
+      // 4. Redirect to the Studio Download Page (include filename so UI can show it)
+      router.push(
+        `/download/repair-result?tool=Sign PDF&local=true&name=${encodeURIComponent(
+          payload.name,
+        )}`,
+      );
     } catch (error) {
       console.error("Payload packaging failed:", error);
       toast.error("Failed to prepare download studio.");

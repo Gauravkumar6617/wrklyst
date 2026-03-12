@@ -39,6 +39,25 @@ export default function MergePdf() {
     setFiles((prev) => [...prev, ...validFiles]);
   };
 
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+    handleFileChange(e.dataTransfer.files);
+  };
+
   const removeFile = (index: number) => {
     setFiles((prev) => prev.filter((_, i) => i !== index));
   };
@@ -166,7 +185,14 @@ export default function MergePdf() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   onClick={() => document.getElementById("mergeInput")?.click()}
-                  className="flex-1 border-2 border-dashed border-slate-200 rounded-[32px] flex flex-col items-center justify-center group hover:border-indigo-500 hover:bg-indigo-50/30 transition-all cursor-pointer"
+                  onDragOver={handleDragOver}
+                  onDragLeave={handleDragLeave}
+                  onDrop={handleDrop}
+                  className={`flex-1 border-2 border-dashed rounded-[32px] flex flex-col items-center justify-center group cursor-pointer transition-all ${
+                    isDragging
+                      ? "border-indigo-600 bg-indigo-50 scale-105"
+                      : "border-slate-200 hover:border-indigo-500 hover:bg-indigo-50/30"
+                  }`}
                 >
                   <input
                     type="file"
@@ -186,7 +212,10 @@ export default function MergePdf() {
                     Select Multiple PDFs
                   </h3>
                   <p className="text-slate-400 font-medium mt-2">
-                    Combine your files in seconds
+                    Drag & drop or click to add multiple PDF files at once
+                  </p>
+                  <p className="text-slate-300 text-sm mt-3">
+                    Combine up to any number of PDFs into one document
                   </p>
                 </motion.div>
               ) : (
