@@ -151,15 +151,15 @@ export function EditMetadataClient() {
                 icon={FileText}
               />
 
-              <ToolCard
-                className="p-12 mt-10 border-2 border-dashed border-gray-200 hover:border-black transition-all group cursor-pointer"
+              <div
+                className="p-12 mt-10 border-2 border-dashed border-gray-200 hover:border-black transition-all group cursor-pointer rounded-2xl bg-white"
                 onClick={() => document.getElementById("file-input")?.click()}
-                onDragOver={(e) => {
+                onDragOver={(e: React.DragEvent<HTMLDivElement>) => {
                   e.preventDefault();
                   setDragActive(true);
                 }}
                 onDragLeave={() => setDragActive(false)}
-                onDrop={(e) => {
+                onDrop={(e: React.DragEvent<HTMLDivElement>) => {
                   e.preventDefault();
                   if (e.dataTransfer.files[0]?.type === "application/pdf")
                     handleFileInit(e.dataTransfer.files[0]);
@@ -185,7 +185,7 @@ export function EditMetadataClient() {
                     Drop your document to reveal hidden properties
                   </p>
                 </div>
-              </ToolCard>
+              </div>
             </motion.div>
           )}
 

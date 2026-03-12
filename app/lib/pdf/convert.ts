@@ -61,7 +61,7 @@ export async function extractImagesFromPDF(
     canvas.height = viewport.height;
     canvas.width = viewport.width;
 
-    await page.render({ canvasContext: context, viewport }).promise;
+    await page.render({ canvasContext: context, canvas, viewport }).promise;
 
     // Export as high-quality JPEG
     const blob = await new Promise<Blob | null>((resolve) =>
