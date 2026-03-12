@@ -39,7 +39,7 @@ export async function imagesToPDF(files: File[]): Promise<Uint8Array> {
  * Extract images from PDF
  */
 export async function extractImagesFromPDF(
-  file: File
+  file: File,
 ): Promise<{ name: string; data: Uint8Array }[]> {
   const arrayBuffer = await file.arrayBuffer();
   // Simplified robust implementation: Render pages as images
@@ -65,7 +65,7 @@ export async function extractImagesFromPDF(
 
     // Export as high-quality JPEG
     const blob = await new Promise<Blob | null>((resolve) =>
-      canvas.toBlob(resolve, "image/jpeg", 0.95)
+      canvas.toBlob(resolve, "image/jpeg", 0.95),
     );
 
     if (blob) {
