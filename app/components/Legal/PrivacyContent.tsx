@@ -188,7 +188,7 @@ export default function PrivacyContent() {
             <h3 className="font-bold text-[#2D2E5F] mb-2">Account Deletion</h3>
             <p className="text-slate-600 text-sm">
               Request deletion of your account and associated data at
-              support@wrklyst.com. We'll process it within 30 days.
+              info@wrklyst.com. We'll process it within 30 days.
             </p>
           </div>
           <div className="p-4 rounded-lg bg-slate-50 border border-slate-200">
@@ -280,7 +280,7 @@ export default function PrivacyContent() {
           ))}
         </div>
         <p className="text-slate-500 leading-relaxed font-medium mt-6">
-          Contact us at privacy@wrklyst.com to exercise these rights.
+          Contact us at info@wrklyst.com to exercise these rights.
         </p>
       </div>
 
@@ -319,10 +319,10 @@ export default function PrivacyContent() {
           <p className="text-slate-400">
             📧 Email:{" "}
             <a
-              href="mailto:privacy@wrklyst.com"
+              href="mailto:info@wrklyst.com"
               className="text-blue-400 hover:text-blue-300"
             >
-              privacy@wrklyst.com
+              info@wrklyst.com
             </a>
           </p>
           <p className="text-slate-400">

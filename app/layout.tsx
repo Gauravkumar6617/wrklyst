@@ -62,6 +62,7 @@
 import { Toaster } from "react-hot-toast";
 import Navbar from "./components/layout/Navbar";
 import NewsletterModal from "./components/Modals/NewsletterModal";
+import BetaNotification from "./components/layout/BetaNotification";
 import "./style/globals.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { Metadata, Viewport } from "next";
@@ -144,6 +145,7 @@ export default function RootLayout({
               <Navbar />
               <main className="pt-[100px] lg:pt-0 pb-20">{children}</main>
               <NewsletterModal />
+              <BetaNotification />
               <Toaster position="bottom-center" />
             </HistoryProvider>
           </AuthProvider>

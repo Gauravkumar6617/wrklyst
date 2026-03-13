@@ -244,7 +244,7 @@ function TermsContent() {
             Questions about these terms? Contact us:
           </p>
           <div className="space-y-2">
-            <p className="text-slate-600 font-medium">📧 support@wrklyst.com</p>
+            <p className="text-slate-600 font-medium">📧 info@wrklyst.com</p>
             <p className="text-slate-600 font-medium">🌐 https://wrklyst.com</p>
             <p className="text-slate-600 font-medium">
               💬{" "}

@@ -12,10 +12,10 @@ import { toast } from "react-hot-toast";
 
 export default function RegexTester() {
   const [pattern, setPattern] = useState(
-    "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}"
+    "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}",
   );
   const [testString, setTestString] = useState(
-    "Contact us at support@wrklyst.com or hello@example.org"
+    "Contact us at info@wrklyst.com",
   );
   const [flags, setFlags] = useState("g");
 
@@ -34,7 +34,7 @@ export default function RegexTester() {
       const highlighted = testString.replace(
         regex,
         (match) =>
-          `<span class="bg-indigo-500/20 border-b-2 border-indigo-500 text-indigo-900 rounded-sm font-bold">${match}</span>`
+          `<span class="bg-indigo-500/20 border-b-2 border-indigo-500 text-indigo-900 rounded-sm font-bold">${match}</span>`,
       );
 
       return { html: highlighted, count, error: null };

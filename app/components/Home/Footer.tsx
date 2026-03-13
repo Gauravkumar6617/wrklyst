@@ -144,17 +144,15 @@ export default function Footer() {
             {isSubscribed ? (
               <div className="bg-[#5D5FEF]/5 border border-[#5D5FEF]/10 rounded-2xl p-6 animate-in fade-in slide-in-from-right-4 duration-500">
                 <CheckCircle2 size={24} className="text-[#5D5FEF] mb-3" />
-                <h5 className="text-sm font-bold text-[#1E1F4B]">
-                  You're subscribed!
-                </h5>
+                <h5 className="text-sm font-bold text-[#1E1F4B]">Thank you!</h5>
                 <p className="text-[11px] text-slate-500 mt-1 font-medium">
-                  Check your inbox for a welcome gift.
+                  We'll keep you updated on new features.
                 </p>
               </div>
             ) : (
               <>
                 <p className="text-xs text-slate-400 font-medium mb-6 leading-relaxed">
-                  Join 4,000+ others getting weekly productivity tips.
+                  Stay updated on new features and improvements.
                 </p>
                 <form className="space-y-3" onSubmit={handleJoin}>
                   <input
@@ -174,7 +172,7 @@ export default function Footer() {
                   </button>
                 </form>
                 <p className="text-[10px] text-slate-400 font-medium mt-3">
-                  We respect your privacy. See our{" "}
+                  Your email will be used only for feature updates. See our{" "}
                   <Link
                     href="/privacy"
                     className="text-[#5D5FEF] hover:underline"
