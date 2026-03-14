@@ -1,13 +1,16 @@
 // lib/subscriberApi.ts
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+import { buildApiUrl } from "./config";
 
-export async function subscriberRequest(endpoint: string, options: RequestInit) {
-  const url = `${BASE_URL}${endpoint}`;
-  
+export async function subscriberRequest(
+  endpoint: string,
+  options: RequestInit,
+) {
+  const url = buildApiUrl(endpoint);
+
   const response = await fetch(url, {
     ...options,
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       ...options.headers,
     },
   });

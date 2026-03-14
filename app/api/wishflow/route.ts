@@ -5,7 +5,8 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
 
     // Forward to external API
-    const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+    const BASE_URL =
+      process.env.NEXT_PUBLIC_API_URL || "https://api.wrklyst.com";
     const url = `${BASE_URL}/api/v1/wish-flow/reminder`;
 
     const response = await fetch(url, {

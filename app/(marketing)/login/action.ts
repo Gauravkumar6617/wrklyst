@@ -1,21 +1,19 @@
 "use server";
 
 import { cookies } from "next/headers";
+import { buildApiUrl } from "@/lib/config";
 
 export async function loginAction(formData: FormData) {
   const email = formData.get("email")?.toString() ?? "";
   const password = formData.get("password")?.toString() ?? "";
 
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/auth/login`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-        cache: "no-store",
-      },
-    );
+    const res = await fetch(buildApiUrl("/api/v1/auth/login"), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+      cache: "no-store",
+    });
 
     const data = await res.json();
 
@@ -47,7 +45,7 @@ export async function loginAction(formData: FormData) {
         httpOnly: false,
       });
 
-      // NEW: Set Email Cookie (This was what was missing!)
+      // Set Email Cookie
       if (user.email) {
         cookieStore.set("email", user.email, {
           path: "/",

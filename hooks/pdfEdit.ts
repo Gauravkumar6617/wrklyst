@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "https://api.wrklyst.com";
+
 export const usePdfArchitect = () => {
   const [file, setFile] = useState<File | null>(null);
   const [pdfData, setPdfData] = useState<any>(null);
@@ -12,7 +14,7 @@ export const usePdfArchitect = () => {
     formData.append("file", selectedFile);
 
     try {
-      const res = await fetch("http://localhost:8000/api/v1/pdf/parse", {
+      const res = await fetch(`${API_BASE}/api/v1/pdf/parse`, {
         method: "POST",
         body: formData,
       });
@@ -31,7 +33,7 @@ export const usePdfArchitect = () => {
     formData.append("edits", JSON.stringify(layers));
 
     try {
-      const res = await fetch("http://localhost:8000/api/v1/pdf/process", {
+      const res = await fetch(`${API_BASE}/api/v1/pdf/process`, {
         method: "POST",
         body: formData,
       });

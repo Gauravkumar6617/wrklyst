@@ -1,5 +1,5 @@
 // Handles the communication with the FastAPI PyMuPDF backend
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "https://api.wrklyst.com";
 
 export const processPdfEdits = async (file: File, layers: any[]) => {
   const formData = new FormData();
