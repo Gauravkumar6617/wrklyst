@@ -19,16 +19,18 @@ export async function signupAction(formData: FormData) {
       cache: "no-store",
     });
 
-    // 1. Check if response is actually JSON (Prevents the "<" error)
-    const contentType = res.headers.get("content-type");
-    if (!contentType || !contentType.includes("application/json")) {
+    // Read response body once
+    const responseText = await res.text();
+
+    let data;
+    try {
+      data = JSON.parse(responseText);
+    } catch (error) {
       return {
         success: false,
-        error: "Backend server error (Non-JSON response)",
+        error: "Backend server error (Invalid response format)",
       };
     }
-
-    const data = await res.json();
 
     // 2. Handle Backend Errors (like Email already exists)
     if (!res.ok) {

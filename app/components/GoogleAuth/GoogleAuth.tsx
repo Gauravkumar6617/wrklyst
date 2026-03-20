@@ -3,6 +3,8 @@
 import { GoogleLogin, CredentialResponse } from "@react-oauth/google";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
+import { buildApiUrl } from "@/lib/config";
+
 export default function GoogleAuth() {
   const handleSuccess = async (credentialResponse: CredentialResponse) => {
     if (!credentialResponse.credential) {
@@ -11,14 +13,11 @@ export default function GoogleAuth() {
     }
 
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/auth/google-login`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ token: credentialResponse.credential }),
-        },
-      );
+      const response = await fetch(buildApiUrl("/api/v1/auth/google-login"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: credentialResponse.credential }),
+      });
 
       if (response.ok) {
         const data = await response.json();
@@ -26,9 +25,11 @@ export default function GoogleAuth() {
         // Save the JWT from your FastAPI backend
 
         Cookies.set("token", data.access_token, { expires: 7 });
-        Cookies.set("username", data.username, { expires: 7 });
+        Cookies.set("username", data.user?.username || data.username, {
+          expires: 7,
+        });
         // USE 'data.username' because that is what the API returns
-        toast.success(`Welcome back, ${data.username}!`);
+        toast.success(`Welcome back, ${data.user?.username || data.username}!`);
 
         // Optional: wait a second so the user can read the toast before redirecting
         setTimeout(() => {
