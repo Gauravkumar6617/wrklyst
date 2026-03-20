@@ -15,7 +15,19 @@ export async function loginAction(formData: FormData) {
       cache: "no-store",
     });
 
-    const data = await res.json();
+    // Try to parse JSON response
+    let data;
+    try {
+      data = await res.json();
+    } catch (error) {
+      // If JSON parsing fails, return the raw response text for debugging
+      const text = await res.text();
+      console.error("Failed to parse JSON response:", text);
+      return {
+        success: false,
+        error: "Backend error: Invalid response format",
+      };
+    }
 
     if (!res.ok) {
       return { success: false, error: data.detail || "Login failed" };
