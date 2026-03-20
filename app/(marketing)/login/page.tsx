@@ -3,7 +3,15 @@
 import { useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Box, Mail, Lock, ArrowRight, Loader2 } from "lucide-react";
+import {
+  Box,
+  Mail,
+  Lock,
+  ArrowRight,
+  Loader2,
+  Eye,
+  EyeOff,
+} from "lucide-react";
 import toast from "react-hot-toast";
 import { loginAction } from "./action";
 import GoogleAuth from "@/app/components/GoogleAuth/GoogleAuth";
@@ -12,6 +20,7 @@ import { useAuthStore } from "@/app/store/useAuthStore";
 export default function LoginPage() {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const [showPassword, setShowPassword] = useState(false);
   const { isLoggedIn, isAdmin, checkAuth } = useAuthStore();
 
   useEffect(() => {
@@ -164,11 +173,18 @@ export default function LoginPage() {
                 />
                 <input
                   required
-                  name="password" // IMPORTANT: matching your action logic
-                  type="password"
+                  name="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="••••••••"
-                  className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:ring-2 focus:ring-[#5D5FEF]/20 focus:bg-white transition-all font-medium"
+                  className="w-full pl-12 pr-12 py-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:ring-2 focus:ring-[#5D5FEF]/20 focus:bg-white transition-all font-medium"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                >
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
               </div>
             </div>
 

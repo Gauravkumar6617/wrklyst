@@ -1,7 +1,7 @@
 "use client";
-import { useTransition } from "react";
+import { useTransition, useState } from "react";
 import { useRouter } from "next/navigation";
-import { signupAction } from "./action"; // Import the action
+import { signupAction } from "./action";
 import toast from "react-hot-toast";
 import {
   Box,
@@ -11,12 +11,15 @@ import {
   CheckCircle,
   Loader2,
   ArrowRight,
+  Eye,
+  EyeOff,
 } from "lucide-react";
 import Link from "next/link";
 
 export default function SignupPage() {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleFormAction = (formData: FormData) => {
     const email = formData.get("email")?.toString() ?? "";
@@ -136,10 +139,17 @@ export default function SignupPage() {
                 <input
                   required
                   name="password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="••••••••"
-                  className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:ring-2 focus:ring-[#5D5FEF]/20 transition-all font-medium"
+                  className="w-full pl-12 pr-12 py-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:ring-2 focus:ring-[#5D5FEF]/20 transition-all font-medium"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                >
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
               </div>
             </div>
 
