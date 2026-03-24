@@ -15,14 +15,22 @@ import {
   EyeOff,
 } from "lucide-react";
 import Link from "next/link";
+import ReCAPTCHAComponent from "@/app/components/ReCAPTCHA/ReCAPTCHA";
 
 export default function SignupPage() {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [showPassword, setShowPassword] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
 
   const handleFormAction = (formData: FormData) => {
     const email = formData.get("email")?.toString() ?? "";
+
+    // Validate reCAPTCHA
+    if (!recaptchaToken) {
+      toast.error("Please complete the reCAPTCHA verification");
+      return;
+    }
 
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -153,8 +161,17 @@ export default function SignupPage() {
               </div>
             </div>
 
+            {/* reCAPTCHA */}
+            <ReCAPTCHAComponent
+              onVerify={(token) => setRecaptchaToken(token)}
+              onExpired={() => {
+                setRecaptchaToken(null);
+                toast.error("reCAPTCHA expired, please verify again");
+              }}
+            />
+
             <button
-              disabled={isPending}
+              disabled={isPending || !recaptchaToken}
               type="submit"
               className="w-full py-5 bg-[#1E1F4B] text-white rounded-2xl font-bold flex items-center justify-center gap-3 shadow-xl hover:scale-[1.01] transition-all disabled:opacity-70"
             >
