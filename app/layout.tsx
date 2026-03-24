@@ -135,6 +135,13 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
+
+        {/* Google AdSense */}
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1786398187211222"
+          crossOrigin="anonymous"
+        ></script>
       </head>
 
       <body className="bg-mesh min-h-screen antialiased">
