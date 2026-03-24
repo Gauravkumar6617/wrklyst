@@ -63,6 +63,7 @@ import { Toaster } from "react-hot-toast";
 import Navbar from "./components/layout/Navbar";
 import NewsletterModal from "./components/Modals/NewsletterModal";
 import BetaNotification from "./components/layout/BetaNotification";
+import GDPRConsent from "./components/layout/GDPRConsent";
 import "./style/globals.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { Metadata, Viewport } from "next";
@@ -153,6 +154,7 @@ export default function RootLayout({
               <main className="pt-[100px] lg:pt-0 pb-20">{children}</main>
               <NewsletterModal />
               <BetaNotification />
+              <GDPRConsent />
               <Toaster position="bottom-center" />
             </HistoryProvider>
           </AuthProvider>
