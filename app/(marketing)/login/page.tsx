@@ -75,15 +75,15 @@ export default function LoginPage() {
 
           toast.success(`Welcome back, ${result.user.username}!`);
 
-          // 3. ROUTING LOGIC
+          // 3. ROUTING LOGIC - DISABLED FOR NOW
           // Use window.location.href for a clean "hard" redirect to the admin panel
           // This ensures all auth headers are fresh
-          if (result.user.is_admin) {
-            window.location.href = "/admin";
-          } else {
-            router.push("/");
-            router.refresh();
-          }
+          // if (result.user.is_admin) {
+          //   window.location.href = "/admin";
+          // } else {
+          //   router.push("/");
+          //   router.refresh();
+          // }
         } else {
           toast.error(result.error || "Login failed");
         }
@@ -160,7 +160,7 @@ export default function LoginPage() {
                   Password
                 </label>
                 <Link
-                  href="#"
+                  href="/forgot-password"
                   className="text-[11px] font-black text-[#5D5FEF] uppercase tracking-widest hover:underline"
                 >
                   Forgot?
